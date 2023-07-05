@@ -16,10 +16,19 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  http: ^1.0.0
+  google_fonts: ^5.0.0
 
   flutter_lints: ^2.0.0
 flutter:
 
   uses-material-design: true
   assets:
-      - assets/
+      - assets/fonts/
+  fonts:
+    - family: PlusJakartaSans
+      fonts:
+        - asset: assets/fonts/PlusJakartaSans-Regular.ttf
+        - asset: assets/fonts/PlusJakartaSans-Bold.ttf
+        - asset: assets/fonts/PlusJakartaSans-ExtraBold.ttf
+        - asset: assets/fonts/PlusJakartaSans-Medium.ttf

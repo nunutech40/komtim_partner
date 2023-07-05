@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:komtim_partner/common/styles.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import '../../widgets/custom_button.dart';
+import '../../widgets/custom_text_field.dart';
+import '../../widgets/custom_password_field.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -19,46 +25,50 @@ class LoginPage extends StatelessWidget {
               children: [
                 const Text(
                   'Login to',
-                  style: TextStyle(fontSize: 40, fontWeight: FontWeight.w700),
+                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.w900),
                   textAlign: TextAlign.left,
                 ),
                 const Text(
                   'your Account',
-                  style: TextStyle(fontSize: 40, fontWeight: FontWeight.w700),
+                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.w900),
                   textAlign: TextAlign.left,
                 ),
                 const SizedBox(
                   height: 32.0,
                 ),
-                TextField(
-                  decoration: InputDecoration(
-                    contentPadding:
-                        const EdgeInsets.all(16.0), // Adjusts height
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(
-                          8.0), // Adjusts the roundness of border
-                    ),
-                    labelText: 'Username',
-                    hintText: 'Masukkan username kamu',
-                    floatingLabelBehavior: FloatingLabelBehavior
-                        .always, // Keeps the label floating
-                  ),
+                const CustomTextField(
+                  label: 'Username',
+                  hint: 'Masukkan username kamu',
                 ),
                 const SizedBox(
                   height: 24.0,
                 ),
-                TextField(
-                  decoration: InputDecoration(
-                    contentPadding:
-                        const EdgeInsets.all(16.0), // Adjusts height
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(
-                          8.0), // Adjusts the roundness of border
-                    ),
-                    labelText: 'Password',
-                    hintText: 'Password kamu',
-                    floatingLabelBehavior: FloatingLabelBehavior
-                        .always, // Keeps the label floating
+                const CustomPasswordField(
+                  label: 'Password',
+                  hint: 'Password kamu',
+                ),
+                const SizedBox(
+                  height: 24.0,
+                ),
+                const Text(
+                  'Lupa password?',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: primaryColor,
+                  ),
+                ),
+                const SizedBox(
+                  height: 32.0,
+                ),
+                SizedBox(
+                  width:
+                      double.infinity, // Set width to fill the available space
+                  child: CustomButton(
+                    text: 'Login',
+                    onPressed: () {
+                      // Perform the desired action when the button is pressed.
+                      print('Button pressed!');
+                    },
                   ),
                 ),
               ],
