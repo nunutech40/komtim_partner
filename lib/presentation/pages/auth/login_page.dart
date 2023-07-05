@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:komtim_partner/common/styles.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../router/app_router.dart';
+import '../../router/router_utils.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_text_field.dart';
 import '../../widgets/custom_password_field.dart';
@@ -66,8 +68,7 @@ class LoginPage extends StatelessWidget {
                   child: CustomButton(
                     text: 'Login',
                     onPressed: () {
-                      // Perform the desired action when the button is pressed.
-                      print('Button pressed!');
+                      AppRouter.router.go(PAGES.home.screenPath);
                     },
                   ),
                 ),
