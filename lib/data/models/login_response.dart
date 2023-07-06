@@ -4,7 +4,7 @@ import 'package:komtim_partner/domain/entities/login_model.dart';
 class LoginResponse extends Equatable {
   final String status;
   final int code;
-  final LoginData data;
+  final LoginDataResponse data;
   final String? message;
 
   const LoginResponse(
@@ -24,18 +24,8 @@ class LoginResponse extends Equatable {
     return LoginResponse(
       status: json['status'],
       code: json['code'],
-      data: LoginData.fromJson(json['data']),
+      data: LoginDataResponse.fromJson(json['data']),
       message: json['message'],
-    );
-  }
-
-  // Convert to your entity class
-  LoginModel toEntity() {
-    return LoginModel(
-      status: status,
-      code: code,
-      data: data.toEntity(),
-      message: message,
     );
   }
 
@@ -48,13 +38,13 @@ class LoginResponse extends Equatable {
       ];
 }
 
-class LoginData extends Equatable {
+class LoginDataResponse extends Equatable {
   final String? accessToken;
   final String? tokenType;
   final int? userId;
   final String? expiresAt;
 
-  const LoginData(
+  const LoginDataResponse(
       {required this.accessToken,
       required this.tokenType,
       required this.userId,
@@ -67,8 +57,8 @@ class LoginData extends Equatable {
         "expires_at": expiresAt,
       };
 
-  factory LoginData.fromJson(Map<String, dynamic> json) {
-    return LoginData(
+  factory LoginDataResponse.fromJson(Map<String, dynamic> json) {
+    return LoginDataResponse(
       accessToken: json['access_token'],
       tokenType: json['token_type'],
       userId: json['user_id'],
@@ -77,8 +67,8 @@ class LoginData extends Equatable {
   }
 
   // Convert to your entity class
-  LoginDataModel toEntity() {
-    return LoginDataModel(
+  LoginModel toEntity() {
+    return LoginModel(
       accessToken: accessToken,
       tokenType: tokenType,
       userId: userId,

@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 import '../../../common/exception.dart';
 
 abstract class AuthRemoteDataSource {
-  Future<LoginResponse> doLogin(
+  Future<LoginDataResponse> doLogin(
       String username, String password, String loginFrom, String fcmToken);
 }
 
@@ -19,7 +19,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   AuthRemoteDataSourceImpl({required this.client});
 
   @override
-  Future<LoginResponse> doLogin(String username, String password,
+  Future<LoginDataResponse> doLogin(String username, String password,
       String loginFrom, String fcmToken) async {
     // Define headers
     Map<String, String> headers = {
@@ -41,9 +41,14 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     );
 
     if (response.statusCode == 200) {
-      var result = LoginResponse.fromJson(json.decode(response.body));
+      // decode data from json
+      var loginResponse = LoginResponse.fromJson(json.decode(response.body));
 
-      return result;
+      if (loginResponse.status == "success") {
+        return loginResponse.data;
+      } else {
+        throw Exception('Login failed: ${loginResponse.message}');
+      }
     } else {
       throw ServerException();
     }
