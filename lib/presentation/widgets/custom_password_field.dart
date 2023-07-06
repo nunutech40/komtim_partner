@@ -76,10 +76,9 @@ class _CustomPasswordFieldState extends State<CustomPasswordField> {
         ),
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: IconButton(
-          icon: Icon(
-            _obscureText ? Icons.visibility_off : Icons.visibility,
-            color: Theme.of(context).primaryColorDark,
-          ),
+          icon: _obscureText
+              ? Image.asset('assets/images/ic_eye-slash.png')
+              : Image.asset('assets/images/ic_eye.png'),
           onPressed: () {
             setState(() {
               _obscureText = !_obscureText;
