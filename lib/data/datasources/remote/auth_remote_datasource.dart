@@ -40,17 +40,19 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       body: body,
     );
 
-    if (response.statusCode == 200) {
-      // decode data from json
-      var loginResponse = LoginResponse.fromJson(json.decode(response.body));
-
-      if (loginResponse.status == "success") {
+    switch (response.statusCode) {
+      case 200:
+        var loginResponse = LoginResponse.fromJson(json.decode(response.body));
+        if (loginResponse.status != "success") {
+          throw Exception('Login failed: ${loginResponse.message}');
+        }
         return loginResponse.data;
-      } else {
-        throw Exception('Login failed: ${loginResponse.message}');
-      }
-    } else {
-      throw ServerException();
+      case 401:
+        throw UnauthorizedException('Unauthorized');
+      case 500:
+        throw ServerException('Server Error');
+      default:
+        throw UnknownException('Something Error');
     }
   }
 }
