@@ -21,21 +21,6 @@ class _MainPageState extends State<MainPage> {
     const ProfilePage(),
   ];
 
-  final List<BottomNavigationBarItem> _bottomNavBarItems = [
-    const BottomNavigationBarItem(
-      icon: Icon(Icons.restaurant),
-      label: _headlineText,
-    ),
-    const BottomNavigationBarItem(
-      icon: Icon(Icons.bookmark),
-      label: 'History',
-    ),
-    const BottomNavigationBarItem(
-      icon: Icon(Icons.settings),
-      label: 'Profile',
-    ),
-  ];
-
   void _onBottomNavTapped(int index) {
     setState(() {
       _bottomNavIndex = index;
@@ -44,6 +29,28 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    final List<BottomNavigationBarItem> _bottomNavBarItems = [
+      BottomNavigationBarItem(
+        icon: _bottomNavIndex == 0
+            ? Image.asset('assets/images/ic_home_active.png',
+                width: 28, height: 28)
+            : Image.asset('assets/images/ic_home-inactive.png'),
+        label: _headlineText,
+      ),
+      BottomNavigationBarItem(
+        icon: _bottomNavIndex == 1
+            ? Image.asset('assets/images/ic_archive-book-active.png')
+            : Image.asset('assets/images/ic_archive-book_inactive.png'),
+        label: 'History',
+      ),
+      BottomNavigationBarItem(
+        icon: _bottomNavIndex == 2
+            ? Image.asset('assets/images/ic_profile-circle-active.png')
+            : Image.asset('assets/images/ic_profile-circle-inactive.png'),
+        label: 'Profile',
+      ),
+    ];
+
     return Scaffold(
       body: _listWidget[_bottomNavIndex],
       bottomNavigationBar: BottomNavigationBar(
