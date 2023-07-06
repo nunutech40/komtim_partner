@@ -4,11 +4,13 @@ import 'package:komtim_partner/common/styles.dart';
 class CustomTextField extends StatefulWidget {
   final String label;
   final String hint;
+  final ValueChanged<String> onChanged;
 
   const CustomTextField({
     Key? key,
     required this.label,
     required this.hint,
+    required this.onChanged,
   }) : super(key: key);
 
   @override
@@ -42,6 +44,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
     return TextField(
       focusNode: _focusNode,
+      onChanged: widget.onChanged,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.all(12.0),
         border: OutlineInputBorder(

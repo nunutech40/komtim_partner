@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:komtim_partner/presentation/not_found_page.dart';
-import 'package:komtim_partner/presentation/pages/auth/login_page.dart';
+import 'package:komtim_partner/presentation/pages/not_found_page.dart';
+import 'package:komtim_partner/presentation/pages/auth/view/login_page.dart';
 import 'package:komtim_partner/presentation/pages/auth/splash_screen.dart';
 import 'package:komtim_partner/presentation/pages/home/home_page.dart';
 import 'package:komtim_partner/presentation/pages/home/main_page.dart';

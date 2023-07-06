@@ -5,11 +5,13 @@ import '../../common/styles.dart';
 class CustomPasswordField extends StatefulWidget {
   final String label;
   final String hint;
+  final ValueChanged<String> onChanged;
 
   const CustomPasswordField({
     Key? key,
     required this.label,
     required this.hint,
+    required this.onChanged,
   }) : super(key: key);
 
   @override
@@ -39,17 +41,19 @@ class _CustomPasswordFieldState extends State<CustomPasswordField> {
 
   @override
   Widget build(BuildContext context) {
+    final Color borderColor =
+        _hasFocus ? primaryColor : Colors.grey; // Adjust the border color
+
     return TextField(
       focusNode: _focusNode,
+      onChanged: widget.onChanged,
       obscureText: _obscureText,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.all(12.0),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.0),
           borderSide: BorderSide(
-            color: _hasFocus
-                ? primaryColor
-                : Colors.grey, // Set border color based on focus
+            color: borderColor, // Set the border color
             width: 2.0,
           ),
         ),
@@ -62,14 +66,12 @@ class _CustomPasswordFieldState extends State<CustomPasswordField> {
         ),
         labelText: widget.label,
         labelStyle: TextStyle(
-          color: _hasFocus
-              ? primaryColor
-              : Colors.black, // Change font color based on focus
+          color: _hasFocus ? primaryColor : Colors.black,
           fontSize: 16,
         ),
         hintText: widget.hint,
-        hintStyle: const TextStyle(
-          color: Colors.grey,
+        hintStyle: TextStyle(
+          color: borderColor, // Set the same color as the border
           fontSize: 16,
         ),
         floatingLabelBehavior: FloatingLabelBehavior.always,
