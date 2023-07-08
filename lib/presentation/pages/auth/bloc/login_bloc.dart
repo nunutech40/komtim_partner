@@ -38,10 +38,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     emit(state.copyWith(status: LoginStatus.loading));
 
     final result = await doLoginUseCase.execute(state.username, state.password);
-    
+
     result.fold(
       (failure) {
-        print('cek loginstatus here: $LoginStatus');
         emit(state.copyWith(
             message: failure.message, status: LoginStatus.failure));
       },

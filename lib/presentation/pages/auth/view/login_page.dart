@@ -16,7 +16,6 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
-        print('cek statenya: $state');
         if (state.status == LoginStatus.success) {
           AppRouter.router.go(PAGES.home.screenPath);
         }
