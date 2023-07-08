@@ -9,7 +9,7 @@ class DoLoginUseCase {
   DoLoginUseCase(this.repository);
 
   Future<Either<Failure, LoginModel>> execute(
-      String username, String password, String loginFrom, String fcmToken) {
-    return repository.doLogin(username, password, loginFrom, fcmToken);
+      String username, String password) {
+    return repository.doLogin(username, password);
   }
 }

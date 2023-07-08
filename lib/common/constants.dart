@@ -1,1 +1,1 @@
-const String BaseURL = 'https://dev.komtim.komerce.my.id/api';
+const String BaseURL = 'https://dev.go.komtim.komerce.my.id';

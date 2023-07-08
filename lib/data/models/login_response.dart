@@ -2,85 +2,89 @@ import 'package:equatable/equatable.dart';
 import 'package:komtim_partner/domain/entities/login_model.dart';
 
 class LoginResponse extends Equatable {
-  final String status;
-  final int code;
-  final LoginDataResponse data;
-  final String? message;
-
-  const LoginResponse(
-      {required this.status,
-      required this.code,
-      required this.data,
-      required this.message});
-
-  Map<String, dynamic> toJson() => {
-        "status": status,
-        "code": code,
-        "data": data,
-        "message": message,
-      };
-
-  factory LoginResponse.fromJson(Map<String, dynamic> json) {
-    return LoginResponse(
-      status: json['status'],
-      code: json['code'],
-      data: LoginDataResponse.fromJson(json['data']),
-      message: json['message'],
-    );
-  }
-
-  @override
-  List<Object?> get props => [
-        status,
-        code,
-        data,
-        message,
-      ];
-}
-
-class LoginDataResponse extends Equatable {
   final String? accessToken;
   final String? tokenType;
-  final int? userId;
-  final String? expiresAt;
+  final UserLoginData? data;
 
-  const LoginDataResponse(
-      {required this.accessToken,
-      required this.tokenType,
-      required this.userId,
-      required this.expiresAt});
+  const LoginResponse(
+      {required this.accessToken, required this.tokenType, required this.data});
 
   Map<String, dynamic> toJson() => {
         "access_token": accessToken,
         "token_type": tokenType,
-        "user_id": userId,
-        "expires_at": expiresAt,
+        "data": data,
       };
 
-  factory LoginDataResponse.fromJson(Map<String, dynamic> json) {
-    return LoginDataResponse(
+  factory LoginResponse.fromJson(Map<String, dynamic> json) {
+    return LoginResponse(
       accessToken: json['access_token'],
       tokenType: json['token_type'],
-      userId: json['user_id'],
-      expiresAt: json['expires_at'],
+      data: UserLoginData.fromJson(json['data']),
     );
   }
 
   // Convert to your entity class
   LoginModel toEntity() {
     return LoginModel(
-      accessToken: accessToken,
-      tokenType: tokenType,
-      userId: userId,
-      expiresAt: expiresAt,
-    );
+        accessToken: accessToken, tokenType: tokenType, data: data?.toEntity());
   }
 
   @override
   List<Object?> get props => [
         accessToken,
         tokenType,
-        userId,
-        expiresAt,
+        data,
       ];
+}
+
+class UserLoginData extends Equatable {
+  final int? id;
+  final int? partnerId;
+  final String? partnerNo;
+  final String? username;
+  final String? fullname;
+  final String? email;
+
+  UserLoginData({
+    required this.id,
+    required this.partnerId,
+    required this.partnerNo,
+    required this.username,
+    required this.fullname,
+    required this.email,
+  });
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "partner_id": partnerId,
+        "partner_no": partnerNo,
+        "username": username,
+        "fullname": fullname,
+        "email": email
+      };
+
+  factory UserLoginData.fromJson(Map<String, dynamic> json) {
+    return UserLoginData(
+      id: json['id'],
+      partnerId: json['partner_id'],
+      partnerNo: json['partner_no'],
+      username: json['username'],
+      fullname: json['fullname'],
+      email: json['email'],
+    );
+  }
+
+  UserLoginModel toEntity() {
+    return UserLoginModel(
+        id: id,
+        partnerId: partnerId,
+        partnerNo: partnerNo,
+        username: username,
+        fullname: fullname,
+        email: email);
+  }
+
+  @override
+  List<Object?> get props =>
+      [id, partnerId, partnerNo, username, fullname, email];
 }
