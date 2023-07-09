@@ -10,7 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 final locator = GetIt.instance;
 
-void init() {
+Future<void> initDependencies() async {
   // inject bloc
   locator.registerFactory(() => LoginBloc(doLoginUseCase: locator()));
 
@@ -29,10 +29,13 @@ void init() {
   locator.registerSingletonAsync<SharedPreferences>(
       () => SharedPreferences.getInstance());
 
-  // Register SharedPref
-  locator.registerLazySingleton<SharedPref>(
-      () => SharedPref(sharedPreferences: SharedPreferences.getInstance()));
+// Register SharedPref
+  locator.registerLazySingleton<SharedPref>(() =>
+      SharedPref(sharedPreferences: locator.getAsync<SharedPreferences>()));
 
   // external
   locator.registerLazySingleton(() => http.Client());
+
+  // Ensure SharedPreferences is ready
+  await locator.allReady();
 }

@@ -21,6 +21,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Either<Failure, LoginModel>> doLogin(
       String username, String password) async {
     try {
+      // login and get data login, token and user
       final result = await remoteDataSource.doLogin(username, password);
 
       // save to preferences
