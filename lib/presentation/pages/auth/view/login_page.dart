@@ -17,7 +17,7 @@ class LoginPage extends StatelessWidget {
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
         if (state.status == LoginStatus.success) {
-          AppRouter.router.go(PAGES.home.screenPath);
+          AppRouter.router.go(PAGES.main.screenPath);
         }
         if (state.status == LoginStatus.failure) {
           ScaffoldMessenger.of(context).showSnackBar(

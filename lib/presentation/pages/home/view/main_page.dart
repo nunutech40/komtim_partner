@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:komtim_partner/common/enum_status.dart';
 import 'package:komtim_partner/common/styles.dart';
-import 'package:komtim_partner/presentation/pages/home/history_page.dart';
-import 'package:komtim_partner/presentation/pages/home/home_page.dart';
-import 'package:komtim_partner/presentation/pages/home/profile_page.dart';
+import 'package:komtim_partner/presentation/pages/home/bloc/main_bloc.dart';
+import 'package:komtim_partner/presentation/pages/home/view/profile_page.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../router/app_router.dart';
+import '../../../router/router_utils.dart';
+import 'history_page.dart';
+import 'home_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -29,6 +35,28 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    return BlocListener<MainBloc, MainState>(
+      listener: (context, state) => _handleStateChange(context, state),
+      child: _buildScaffold(),
+    );
+  }
+
+  void _handleStateChange(BuildContext context, MainState state) {
+    if (state.status == RequestStatus.success) {
+      AppRouter.router.go(PAGES.main.screenPath);
+    } else {
+      AppRouter.router.go(PAGES.login.screenPath);
+    }
+    if (state.status == RequestStatus.failure) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(state.message),
+        ),
+      );
+    }
+  }
+
+  Widget _buildScaffold() {
     final List<BottomNavigationBarItem> _bottomNavBarItems = [
       BottomNavigationBarItem(
         icon: _bottomNavIndex == 0

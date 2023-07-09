@@ -35,7 +35,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     LoginButtonPressedEvent event,
     Emitter<LoginState> emit,
   ) async {
-    print("LoginButtonPressedEvent triggered"); // <-- HERE
     emit(state.copyWith(status: LoginStatus.loading));
 
     final result = await doLoginUseCase.execute(state.username, state.password);
