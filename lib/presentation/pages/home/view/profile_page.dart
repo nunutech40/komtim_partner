@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../widgets/custom_outline_button.dart';
 import '../../../widgets/custom_tile.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -27,6 +28,11 @@ class ProfilePage extends StatelessWidget {
               title: 'Ubah Password',
               leadingIcon: Image.asset('assets/images/ic-security-safe.png'),
               trailingIcon: Image.asset('assets/images/ic-arrow-right.png'),
+            ),
+            CustomOutlineButton(
+              text: 'Login',
+              onPressed: () {},
+              icon: Image.asset('assets/images/ic-logout.png'),
             ),
           ],
         ),

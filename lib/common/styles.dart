@@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 const Color primaryColor = Color(0xFF34A853);
 const Color secondaryColor = Color(0xFF309C4D);
 
+const Color error = Color(0xFFE31A1A);
+
 class AppTypography {
   static final TextStyle bold16 = TextStyle(
     fontSize: 16,
