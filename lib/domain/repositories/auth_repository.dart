@@ -4,6 +4,6 @@ import '../../common/failure.dart';
 
 abstract class AuthRepository {
   Future<Either<Failure, LoginModel>> doLogin(String username, String password);
-  Stream<Either<Failure, bool>> get authState;
   Future<Either<Failure, bool>> getAuthState();
+  Future<Either<Failure, bool>> doLogout();
 }

@@ -1,9 +1,15 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:komtim_partner/presentation/pages/home/bloc/main_bloc.dart';
 
+import '../../../../common/enum_status.dart';
+import '../../../router/app_router.dart';
+import '../../../router/router_utils.dart';
 import '../../../widgets/custom_outline_button.dart';
 import '../../../widgets/custom_tile.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -17,7 +23,22 @@ class ProfilePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const ProfileRow(),
+            BlocListener<MainBloc, MainState>(
+              listener: (context, state) {
+                // Handle state changes here
+                if (state.status == RequestStatus.success) {
+                  AppRouter.router.go(PAGES.login.screenPath);
+                } else if (state.status == RequestStatus.failure) {
+                  // Handle logout failure
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(state.message),
+                    ),
+                  );
+                }
+              },
+              child: const ProfileRow(),
+            ),
             const SizedBox(
               height: 32.0,
             ),
@@ -38,7 +59,12 @@ class ProfilePage extends StatelessWidget {
               width: double.infinity,
               child: CustomOutlineButton(
                 text: 'Logout',
-                onPressed: () {},
+                onPressed: () {
+                  // Dispatch the logout event to the profile bloc
+                  context
+                      .read<MainBloc>()
+                      .add(const LogoutButtonPressedEvent());
+                },
                 icon: Image.asset('assets/images/ic-logout.png'),
               ),
             ),

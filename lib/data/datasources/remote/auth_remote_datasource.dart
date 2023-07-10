@@ -11,12 +11,50 @@ import '../../../common/exception.dart';
 
 abstract class AuthRemoteDataSource {
   Future<LoginResponse> doLogin(String username, String password);
+  Future<bool> doLogout();
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final http.Client client;
 
   AuthRemoteDataSourceImpl({required this.client});
+
+  @override
+  Future<bool> doLogout() async {
+    Map<String, String> headers = {
+      'Content-Type': 'application/json; charset=UTF-8',
+    };
+
+    final response = await client.post(
+        Uri.parse('$BaseURL/api/v1/auth/profile/logout'),
+        headers: headers);
+
+    final parsedJson = json.decode(response.body);
+    
+
+    switch (response.statusCode) {
+      case 200:
+        var metaresponse = MetaResponse.fromJson(parsedJson['meta']);
+        if (metaresponse.status == "success") {
+          return true;
+        } else {
+          throw Exception('Logout failed: ${metaresponse.message}');
+        }
+      case 401:
+        var metaresponse = MetaResponse.fromJson(parsedJson['meta']);
+        throw UnauthorizedException(metaresponse.message ?? 'Unauthorized');
+      case 404:
+        var metaresponse = MetaResponse.fromJson(parsedJson['meta']);
+        throw UnauthorizedException(metaresponse.message ?? 'Unauthorized');
+      case 422:
+        final messageError = parsedJson['data']['errors'][0].toString();
+        throw UnauthorizedException(messageError);
+      case 500:
+        throw ServerException('Server Error');
+      default:
+        throw UnknownException('Unknown Error');
+    }
+  }
 
   @override
   Future<LoginResponse> doLogin(String username, String password) async {
