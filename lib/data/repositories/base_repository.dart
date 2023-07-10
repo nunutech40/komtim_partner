@@ -20,4 +20,14 @@ mixin RepositoryMixin {
       return Left(UnknownFailure('Unexpected Error: ${e.toString()}'));
     }
   }
+
+  Future<Either<Failure, T>> executeEitherPref<T>(
+      Future<T> Function() f) async {
+    try {
+      final result = await f();
+      return Right(result);
+    } catch (e) {
+      return Left(UnknownFailure('Unexpected Error: ${e.toString()}'));
+    }
+  }
 }

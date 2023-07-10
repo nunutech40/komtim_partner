@@ -20,23 +20,8 @@ class AuthRepositoryImpl with RepositoryMixin implements AuthRepository {
       {required this.remoteDataSource, required this.sharedPref});
 
   @override
-  Future<Either<Failure, T>> executeEither<T>(Future<T> Function() f) async {
-    try {
-      final result = await f();
-      return Right(result);
-    } on ServerException catch (e) {
-      return Left(ServerFailure(e.message));
-    } on SocketException catch (e) {
-      return Left(
-          ConnectionFailure('Failed to connect to the network: ${e.message}'));
-    } catch (e) {
-      return Left(UnknownFailure('Unexpected Error: ${e.toString()}'));
-    }
-  }
-
-  @override
   Future<Either<Failure, bool>> getAuthState() async {
-    return executeEither(() async {
+    return executeEitherPref(() async {
       return await sharedPref.isLoggedIn();
     });
   }
