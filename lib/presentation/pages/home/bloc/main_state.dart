@@ -3,7 +3,7 @@ part of 'main_bloc.dart';
 class MainState extends Equatable {
   const MainState({
     this.message = '',
-    this.status = RequestStatus.loading,
+    this.status = RequestStatus.empty,
   });
 
   final String message;

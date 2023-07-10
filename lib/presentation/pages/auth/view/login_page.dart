@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:komtim_partner/common/styles.dart';
+import '../../../../common/enum_status.dart';
 import '../../../router/app_router.dart';
 import '../../../router/router_utils.dart';
 import '../../../widgets/custom_button.dart';
@@ -14,32 +15,48 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var isSnackBarActive = false;
-
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
-        if (state.status == LoginStatus.success) {
+        if (state.status == RequestStatus.success) {
           AppRouter.router.go(PAGES.main.screenPath);
         }
-        if (state.status == LoginStatus.failure && !isSnackBarActive) {
-          isSnackBarActive = true;
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.message),
-              behavior: SnackBarBehavior.floating,
-              duration: const Duration(seconds: 3),
-              action: SnackBarAction(
-                label: 'OK',
-                onPressed: () {
-                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                  isSnackBarActive = false;
+        if (state.status == RequestStatus.failure) {
+          ScaffoldMessenger.of(context)
+            ..removeCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+                behavior: SnackBarBehavior.floating,
+                duration: const Duration(seconds: 3),
+                action: SnackBarAction(
+                  label: 'OK',
+                  onPressed: ScaffoldMessenger.of(context).hideCurrentSnackBar,
+                ),
+                onVisible: () {
+                  context.read<LoginBloc>().add(
+                      const EmptyEvent()); // here you add an event that will update the state.status to RequestStatus.empty
                 },
               ),
-            ),
-          );
+            );
         }
       },
       child: const _LoginForm(),
+    );
+  }
+}
+
+class _SubmitButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: CustomButton(
+        text: 'Login',
+        onPressed: () {
+          context.read<LoginBloc>().add(const LoginButtonPressedEvent());
+          ScaffoldMessenger.of(context).removeCurrentSnackBar();
+        },
+      ),
     );
   }
 }
@@ -140,21 +157,6 @@ class _ForgotPasswordText extends StatelessWidget {
       style: TextStyle(
         fontSize: 12,
         color: primaryColor,
-      ),
-    );
-  }
-}
-
-class _SubmitButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: CustomButton(
-        text: 'Login',
-        onPressed: () {
-          context.read<LoginBloc>().add(const LoginButtonPressedEvent());
-        },
       ),
     );
   }

@@ -1,28 +1,22 @@
 part of 'login_bloc.dart';
 
-enum LoginStatus {
-  success,
-  failure,
-  loading,
-}
-
 class LoginState extends Equatable {
   const LoginState({
     this.message = '',
-    this.status = LoginStatus.loading,
+    this.status = RequestStatus.empty,
     this.username = '',
     this.password = '',
   });
 
   final String message;
-  final LoginStatus status;
+  final RequestStatus status;
   final String username;
   final String password;
 
   LoginState copyWith({
     String? username,
     String? password,
-    LoginStatus? status,
+    RequestStatus? status,
     String? message,
   }) {
     return LoginState(

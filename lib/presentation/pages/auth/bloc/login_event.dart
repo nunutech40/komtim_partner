@@ -11,6 +11,10 @@ class LoginButtonPressedEvent extends LoginEvent {
   const LoginButtonPressedEvent();
 }
 
+class EmptyEvent extends LoginEvent {
+  const EmptyEvent();
+}
+
 class LoginEmailChangedEvent extends LoginEvent {
   const LoginEmailChangedEvent({required this.email});
 
