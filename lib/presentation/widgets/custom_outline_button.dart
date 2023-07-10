@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:komtim_partner/common/styles.dart';
 
 class CustomOutlineButton extends StatelessWidget {
   final String text;
@@ -20,17 +21,17 @@ class CustomOutlineButton extends StatelessWidget {
       label: Text(
         text,
         style: const TextStyle(
-          color: Colors.red,
+          color: errorColor,
           fontSize: 14,
           fontWeight: FontWeight.bold,
         ),
       ),
       style: OutlinedButton.styleFrom(
         backgroundColor: Colors.white,
-        primary: Colors.red, // This sets the text color and icon color
+        foregroundColor: errorColor, // This sets the text color and icon color
+        side: BorderSide(color: errorColor, width: 1.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
-          side: BorderSide(color: Colors.red, width: 2), // Add the border here
         ),
         padding: const EdgeInsets.symmetric(vertical: 11.0, horizontal: 24.0),
       ),

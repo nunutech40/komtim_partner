@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 
 import '../../../widgets/custom_outline_button.dart';
@@ -29,10 +31,16 @@ class ProfilePage extends StatelessWidget {
               leadingIcon: Image.asset('assets/images/ic-security-safe.png'),
               trailingIcon: Image.asset('assets/images/ic-arrow-right.png'),
             ),
-            CustomOutlineButton(
-              text: 'Login',
-              onPressed: () {},
-              icon: Image.asset('assets/images/ic-logout.png'),
+            const SizedBox(
+              height: 24.0,
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: CustomOutlineButton(
+                text: 'Logout',
+                onPressed: () {},
+                icon: Image.asset('assets/images/ic-logout.png'),
+              ),
             ),
           ],
         ),
