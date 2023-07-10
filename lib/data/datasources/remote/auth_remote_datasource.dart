@@ -8,6 +8,7 @@ import '../../../common/constants.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../common/exception.dart';
+import 'http_service.dart';
 
 abstract class AuthRemoteDataSource {
   Future<LoginResponse> doLogin(String username, String password);
@@ -15,22 +16,15 @@ abstract class AuthRemoteDataSource {
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
-  final http.Client client;
+  final HttpService client;
 
   AuthRemoteDataSourceImpl({required this.client});
-
   @override
   Future<bool> doLogout() async {
-    Map<String, String> headers = {
-      'Content-Type': 'application/json; charset=UTF-8',
-    };
-
-    final response = await client.post(
-        Uri.parse('$BaseURL/api/v1/auth/profile/logout'),
-        headers: headers);
+    final response =
+        await client.postWithToken('$BaseURL/api/v1/auth/profile/logout', null);
 
     final parsedJson = json.decode(response.body);
-    
 
     switch (response.statusCode) {
       case 200:
@@ -58,22 +52,14 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<LoginResponse> doLogin(String username, String password) async {
-    // Define headers
-    Map<String, String> headers = {
-      'Content-Type': 'application/json; charset=UTF-8',
-    };
-
     // Define body
     String body = json.encode({
       'username': username,
       'password': password,
     });
 
-    final response = await client.post(
-      Uri.parse('$BaseURL/api/v1/auth/login'),
-      headers: headers,
-      body: body,
-    );
+    final response =
+        await client.postWithoutToken('$BaseURL/api/v1/auth/login', body);
 
     final parsedJson = json.decode(response.body);
 
