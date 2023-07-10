@@ -7,6 +7,7 @@ import 'package:komtim_partner/domain/entities/login_model.dart';
 import '../../../common/constants.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../common/constat_endpoint.dart';
 import '../../../common/exception.dart';
 import 'http_service.dart';
 
@@ -21,8 +22,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   AuthRemoteDataSourceImpl({required this.client});
   @override
   Future<bool> doLogout() async {
-    final response =
-        await client.postWithToken('$BaseURL/api/v1/auth/profile/logout', null);
+    final response = await client.postWithToken(Endpoints.logout, null);
 
     final parsedJson = json.decode(response.body);
 
@@ -58,8 +58,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       'password': password,
     });
 
-    final response =
-        await client.postWithoutToken('$BaseURL/api/v1/auth/login', body);
+    final response = await client.postWithoutToken(Endpoints.login, body);
 
     final parsedJson = json.decode(response.body);
 
