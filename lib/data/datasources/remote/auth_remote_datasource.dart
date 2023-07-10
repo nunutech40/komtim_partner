@@ -6,6 +6,7 @@ import 'package:komtim_partner/domain/entities/login_model.dart';
 
 import '../../../common/constants.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart' show Response;
 
 import '../../../common/constat_endpoint.dart';
 import '../../../common/exception.dart';
@@ -20,19 +21,20 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final HttpService client;
 
   AuthRemoteDataSourceImpl({required this.client});
-  @override
-  Future<bool> doLogout() async {
-    final response = await client.postWithToken(Endpoints.logout, null);
 
+  Future<T> _parseResponse<T>(
+    Response response,
+    T Function(Map<String, dynamic> json) successHandler,
+  ) async {
     final parsedJson = json.decode(response.body);
 
     switch (response.statusCode) {
       case 200:
         var metaresponse = MetaResponse.fromJson(parsedJson['meta']);
         if (metaresponse.status == "success") {
-          return true;
+          return successHandler(parsedJson['data']);
         } else {
-          throw Exception('Logout failed: ${metaresponse.message}');
+          throw Exception('Request failed: ${metaresponse.message}');
         }
       case 401:
         var metaresponse = MetaResponse.fromJson(parsedJson['meta']);
@@ -51,6 +53,12 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
+  Future<bool> doLogout() async {
+    final response = await client.postWithToken(Endpoints.logout, null);
+    return _parseResponse<bool>(response, (_) => true);
+  }
+
+  @override
   Future<LoginResponse> doLogin(String username, String password) async {
     // Define body
     String body = json.encode({
@@ -59,27 +67,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     });
 
     final response = await client.postWithoutToken(Endpoints.login, body);
-
-    final parsedJson = json.decode(response.body);
-
-    switch (response.statusCode) {
-      case 200:
-        var metaresponse = MetaResponse.fromJson(parsedJson['meta']);
-        if (metaresponse.status == "success") {
-          return LoginResponse.fromJson(parsedJson['data']);
-        } else {
-          throw Exception('Login failed: ${metaresponse.message}');
-        }
-      case 401:
-        var metaresponse = MetaResponse.fromJson(parsedJson['meta']);
-        throw UnauthorizedException(metaresponse.message ?? 'Unauthorized');
-      case 422:
-        final messageError = parsedJson['data']['errors'][0].toString();
-        throw UnauthorizedException(messageError);
-      case 500:
-        throw ServerException('Server Error');
-      default:
-        throw UnknownException('Unknown Error');
-    }
+    return _parseResponse<LoginResponse>(
+        response, (json) => LoginResponse.fromJson(json));
   }
 }
