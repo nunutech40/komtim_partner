@@ -5,7 +5,6 @@ import 'package:komtim_partner/data/repositories/auth_repository_impl.dart';
 import 'package:komtim_partner/domain/repositories/auth_repository.dart';
 import 'package:komtim_partner/domain/usecases/do_login.dart';
 import 'package:komtim_partner/domain/usecases/get_auth_state_use_case.dart';
-import 'package:komtim_partner/domain/usecases/get_auth_stream_use_case.dart';
 import 'package:komtim_partner/presentation/pages/auth/bloc/login_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:komtim_partner/presentation/pages/home/bloc/main_bloc.dart';
@@ -16,13 +15,11 @@ final locator = GetIt.instance;
 Future<void> initDependencies() async {
   // inject bloc
   locator.registerFactory(() => LoginBloc(doLoginUseCase: locator()));
-  locator.registerFactory(() => MainBloc(
-      getAuthStateUseCase: locator(), getAuthStreamUseCase: locator()));
+  locator.registerFactory(() => MainBloc(getAuthStateUseCase: locator()));
 
   // inject usecase
   locator.registerLazySingleton(() => DoLoginUseCase(locator()));
   locator.registerLazySingleton(() => GetAuthStateUseCase(locator()));
-  locator.registerLazySingleton(() => GetAuthStreamUseCase(locator()));
 
   // inject repository
   locator.registerLazySingleton<AuthRepository>(() =>

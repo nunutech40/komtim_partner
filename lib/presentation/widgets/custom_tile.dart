@@ -1,0 +1,45 @@
+import 'package:flutter/material.dart';
+import 'package:komtim_partner/common/styles.dart';
+
+class CustomTile extends StatelessWidget {
+  final String title;
+  final Widget leadingIcon;
+  final Widget trailingIcon;
+
+  CustomTile({
+    required this.title,
+    required this.leadingIcon,
+    required this.trailingIcon,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(
+        border: Border(
+          bottom: BorderSide(width: 0.1, color: Colors.black), // bottom line
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                leadingIcon,
+                const SizedBox(
+                    width: 8.0), // Add some space between the icon and text
+                Text(
+                  title,
+                  style: AppTypography.medium14,
+                ),
+              ],
+            ),
+            trailingIcon,
+          ],
+        ),
+      ),
+    );
+  }
+}

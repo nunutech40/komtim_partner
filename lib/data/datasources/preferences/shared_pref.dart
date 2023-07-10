@@ -20,6 +20,12 @@ class SharedPref {
     _loginController.add(true); // Add true to the stream when a token is saved.
   }
 
+  Future<void> removeDataPref() async {
+    final prefs = await sharedPreferences;
+    prefs.clear();
+    _loginController.add(true); // Add true to the stream when a token is saved.
+  }
+
   Future<bool> isLoggedIn() async {
     final prefs = await sharedPreferences;
     String? userAndTokenJson = prefs.getString(USERANDTOKEN);

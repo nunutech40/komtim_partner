@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:komtim_partner/domain/usecases/get_auth_state_use_case.dart';
-import 'package:komtim_partner/domain/usecases/get_auth_stream_use_case.dart';
 import 'package:meta/meta.dart';
 import 'package:bloc/bloc.dart';
 
@@ -12,13 +11,11 @@ part 'main_event.dart';
 class MainBloc extends Bloc<MainEvent, MainState> {
   MainBloc({
     required this.getAuthStateUseCase,
-    required this.getAuthStreamUseCase,
   }) : super(const MainState()) {
     on<MainPageDidload>(_handleDidLoadMainPage);
   }
 
   final GetAuthStateUseCase getAuthStateUseCase;
-  final GetAuthStreamUseCase getAuthStreamUseCase;
 
   Future<void> _handleDidLoadMainPage(
     MainPageDidload event,
