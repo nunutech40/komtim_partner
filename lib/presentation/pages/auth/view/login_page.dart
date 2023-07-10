@@ -20,6 +20,9 @@ class LoginPage extends StatelessWidget {
         if (state.status == RequestStatus.success) {
           AppRouter.router.go(PAGES.main.screenPath);
         }
+        if (state.status == RequestStatus.loading) {
+          const CircularProgressIndicator();
+        }
         if (state.status == RequestStatus.failure) {
           ScaffoldMessenger.of(context)
             ..removeCurrentSnackBar()
