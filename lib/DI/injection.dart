@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:komtim_partner/data/datasources/preferences/shared_pref.dart';
 import 'package:komtim_partner/data/datasources/remote/auth_remote_datasource.dart';
 import 'package:komtim_partner/data/datasources/remote/http_service.dart';
+import 'package:komtim_partner/data/datasources/remote/response_parser.dart';
 import 'package:komtim_partner/data/repositories/auth_repository_impl.dart';
 import 'package:komtim_partner/domain/repositories/auth_repository.dart';
 import 'package:komtim_partner/domain/usecases/do_login.dart';
@@ -30,8 +31,8 @@ Future<void> initDependencies() async {
       AuthRepositoryImpl(remoteDataSource: locator(), sharedPref: locator()));
 
   // inject datasource
-  locator.registerLazySingleton<AuthRemoteDataSource>(
-      () => AuthRemoteDataSourceImpl(client: locator()));
+  locator.registerLazySingleton<AuthRemoteDataSource>(() =>
+      AuthRemoteDataSourceImpl(client: locator(), responseParser: locator()));
 
   // Register SharedPreferences
   locator.registerSingletonAsync<SharedPreferences>(
@@ -46,6 +47,7 @@ Future<void> initDependencies() async {
 
   // http service
   locator.registerLazySingleton(() => HttpService(client: locator()));
+  locator.registerLazySingleton(() => ResponseParser());
 
   // Ensure SharedPreferences is ready
   await locator.allReady();

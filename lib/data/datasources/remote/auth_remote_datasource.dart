@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:komtim_partner/data/datasources/remote/response_parser.dart';
 import 'package:komtim_partner/data/models/login_response.dart';
 import 'package:komtim_partner/data/models/meta_response.dart';
 import 'package:komtim_partner/domain/entities/login_model.dart';
@@ -19,43 +20,15 @@ abstract class AuthRemoteDataSource {
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final HttpService client;
+  final ResponseParser responseParser;
 
-  AuthRemoteDataSourceImpl({required this.client});
-
-  Future<T> _parseResponse<T>(
-    Response response,
-    T Function(Map<String, dynamic> json) successHandler,
-  ) async {
-    final parsedJson = json.decode(response.body);
-
-    switch (response.statusCode) {
-      case 200:
-        var metaresponse = MetaResponse.fromJson(parsedJson['meta']);
-        if (metaresponse.status == "success") {
-          return successHandler(parsedJson['data']);
-        } else {
-          throw Exception('Request failed: ${metaresponse.message}');
-        }
-      case 401:
-        var metaresponse = MetaResponse.fromJson(parsedJson['meta']);
-        throw UnauthorizedException(metaresponse.message ?? 'Unauthorized');
-      case 404:
-        var metaresponse = MetaResponse.fromJson(parsedJson['meta']);
-        throw UnauthorizedException(metaresponse.message ?? 'Unauthorized');
-      case 422:
-        final messageError = parsedJson['data']['errors'][0].toString();
-        throw UnauthorizedException(messageError);
-      case 500:
-        throw ServerException('Server Error');
-      default:
-        throw UnknownException('Unknown Error');
-    }
-  }
+  AuthRemoteDataSourceImpl(
+      {required this.client, required this.responseParser});
 
   @override
   Future<bool> doLogout() async {
     final response = await client.postWithToken(Endpoints.logout, null);
-    return _parseResponse<bool>(response, (_) => true);
+    return responseParser.parseResponse<bool>(response, (_) => true);
   }
 
   @override
@@ -67,7 +40,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     });
 
     final response = await client.postWithoutToken(Endpoints.login, body);
-    return _parseResponse<LoginResponse>(
+    return responseParser.parseResponse<LoginResponse>(
         response, (json) => LoginResponse.fromJson(json));
   }
 }
