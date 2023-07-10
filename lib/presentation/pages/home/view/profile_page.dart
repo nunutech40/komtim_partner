@@ -16,7 +16,6 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var isSnackBarActive = false;
     return Scaffold(
       appBar: AppBar(),
       body: Padding(
@@ -29,21 +28,11 @@ class ProfilePage extends StatelessWidget {
                 // Handle state changes here
                 if (state.status == RequestStatus.success) {
                   AppRouter.router.go(PAGES.login.screenPath);
-                } else if (state.status == RequestStatus.failure &&
-                    !isSnackBarActive) {
-                  isSnackBarActive = true;
+                } else if (state.status == RequestStatus.failure) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(state.message),
-                      behavior: SnackBarBehavior.floating,
                       duration: const Duration(seconds: 3),
-                      action: SnackBarAction(
-                        label: 'OK',
-                        onPressed: () {
-                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                          isSnackBarActive = false;
-                        },
-                      ),
                     ),
                   );
                 }
@@ -71,7 +60,6 @@ class ProfilePage extends StatelessWidget {
               child: CustomOutlineButton(
                 text: 'Logout',
                 onPressed: () {
-                  isSnackBarActive = false;
                   context
                       .read<MainBloc>()
                       .add(const LogoutButtonPressedEvent());

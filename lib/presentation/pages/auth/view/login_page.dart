@@ -26,7 +26,6 @@ class LoginPage extends StatelessWidget {
             ..showSnackBar(
               SnackBar(
                 content: Text(state.message),
-                behavior: SnackBarBehavior.floating,
                 duration: const Duration(seconds: 3),
                 action: SnackBarAction(
                   label: 'OK',

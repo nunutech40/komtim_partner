@@ -42,25 +42,20 @@ class _MainPageState extends State<MainPage> {
   }
 
   void _handleStateChange(BuildContext context, MainState state) {
-    var isSnackBarActive = false;
-
     if (state.status == RequestStatus.success) {
       AppRouter.router.go(PAGES.main.screenPath);
     } else {
       AppRouter.router.go(PAGES.login.screenPath);
     }
-    if (state.status == RequestStatus.failure && !isSnackBarActive) {
-      isSnackBarActive = true;
+    if (state.status == RequestStatus.failure) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(state.message),
-          behavior: SnackBarBehavior.floating,
           duration: const Duration(seconds: 3),
           action: SnackBarAction(
             label: 'OK',
             onPressed: () {
               ScaffoldMessenger.of(context).hideCurrentSnackBar();
-              isSnackBarActive = false;
             },
           ),
         ),
