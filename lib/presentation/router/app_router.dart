@@ -20,17 +20,7 @@ class AppRouter {
     debugLogDiagnostics: true,
     navigatorKey: _rootNavigatorKey,
     initialLocation: PAGES.splash.screenPath,
-    redirect: (context, state) async {
-      final pref = di.locator<SharedPref>();
-      if (await pref.isLoggedIn()) {
-        if (state.location == PAGES.splash.screenPath) {
-          return PAGES.main.screenPath;
-        }
-        return null;
-      } else {
-        return PAGES.login.screenPath;
-      }
-    },
+    
     routes: [
       GoRoute(
         path: PAGES.splash.screenPath,

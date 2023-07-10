@@ -55,7 +55,8 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Either<Failure, bool>> doLogout() async {
     try {
       // logout
-      sharedPref.removeDataPref();
+      sharedPref
+          .removeDataPref(); // ini kalau logout sudah jadi, harus di remove
       final result = await remoteDataSource.doLogout();
 
       // if logout success remove pref
