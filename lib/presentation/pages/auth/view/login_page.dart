@@ -14,15 +14,27 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var isSnackBarActive = false;
+
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
         if (state.status == LoginStatus.success) {
           AppRouter.router.go(PAGES.main.screenPath);
         }
-        if (state.status == LoginStatus.failure) {
+        if (state.status == LoginStatus.failure && !isSnackBarActive) {
+          isSnackBarActive = true;
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.message),
+              behavior: SnackBarBehavior.floating,
+              duration: const Duration(seconds: 3),
+              action: SnackBarAction(
+                label: 'OK',
+                onPressed: () {
+                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                  isSnackBarActive = false;
+                },
+              ),
             ),
           );
         }

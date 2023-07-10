@@ -12,7 +12,7 @@ import 'package:komtim_partner/domain/repositories/auth_repository.dart';
 import '../../common/exception.dart';
 import 'base_repository.dart';
 
-class AuthRepositoryImpl with RepositoryMixin implements AuthRepository {
+class AuthRepositoryImpl extends BaseRepository implements AuthRepository {
   final AuthRemoteDataSource remoteDataSource;
   final SharedPref sharedPref;
 
