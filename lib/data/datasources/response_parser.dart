@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' show Response;
 
 import '../../../common/exception.dart';
-import '../../models/meta_response.dart';
+import '../models/meta_response.dart';
 
 class ResponseParser {
   Future<T> parseResponse<T>(

@@ -71,7 +71,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     emit(state.copyWith(status: RequestStatus.loading));
 
     final result = await doLoginUseCase.execute(state.username, state.password);
-
+    print('cek datattaaaa: ${result}');
     result.fold(
       (failure) {
         String newMessageError = failure.message;

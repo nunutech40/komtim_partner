@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import '../../domain/entities/profile_model.dart';
+
 class ProfileResponse extends Equatable {
   final int? id;
   final int partnerId;
@@ -61,6 +63,24 @@ class ProfileResponse extends Equatable {
       bankAccountNumber: json['bank_account_number'],
       createdAt: json['created_at'],
       updatedAt: json['updated_at'],
+    );
+  }
+
+  ProfileModel toEntity() {
+    return ProfileModel(
+      id: id,
+      partnerId: partnerId,
+      partnerNo: partnerNo,
+      fullname: fullname,
+      username: username,
+      email: email,
+      noTelp: noTelp,
+      address: address,
+      joinDate: joinDate,
+      bankName: bankName,
+      bankAccountNumber: bankAccountNumber,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
     );
   }
 

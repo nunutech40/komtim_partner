@@ -1,9 +1,9 @@
 class Endpoints {
-  // this is base url
-  static const String BaseURL = 'https://dev.go.komtim.komerce.my.id';
+  // This is base url
+  static const String _BaseURL = 'https://dev.go.komtim.komerce.my.id';
 
-  // this is endpoint
-  static const String login = '$BaseURL/api/v1/auth/login';
-  static const String logout = '$BaseURL/api/v1/auth/profile/logout';
-  // Add other endpoints here
+  // These are the endpoints
+  static const String login = '$_BaseURL/api/v1/auth/login';
+  static const String logout = '$_BaseURL/api/v1/auth/profile/logout';
+  static const String getProfile = '$_BaseURL/api/v1/auth/profile';
 }

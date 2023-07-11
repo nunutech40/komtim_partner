@@ -1,17 +1,10 @@
 import 'dart:convert';
 
-import 'package:komtim_partner/data/datasources/remote/response_parser.dart';
 import 'package:komtim_partner/data/models/login_response.dart';
-import 'package:komtim_partner/data/models/meta_response.dart';
-import 'package:komtim_partner/domain/entities/login_model.dart';
-
-import '../../../common/constants.dart';
-import 'package:http/http.dart' as http;
-import 'package:http/http.dart' show Response;
 
 import '../../../common/constat_endpoint.dart';
-import '../../../common/exception.dart';
-import 'http_service.dart';
+import '../http_service.dart';
+import '../response_parser.dart';
 
 abstract class AuthRemoteDataSource {
   Future<LoginResponse> doLogin(String username, String password);
@@ -38,7 +31,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       'username': username,
       'password': password,
     });
-
     final response = await client.postWithoutToken(Endpoints.login, body);
     return responseParser.parseResponse<LoginResponse>(
         response, (json) => LoginResponse.fromJson(json));

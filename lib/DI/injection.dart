@@ -1,8 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:komtim_partner/data/datasources/preferences/shared_pref.dart';
 import 'package:komtim_partner/data/datasources/remote/auth_remote_datasource.dart';
-import 'package:komtim_partner/data/datasources/remote/http_service.dart';
-import 'package:komtim_partner/data/datasources/remote/response_parser.dart';
 import 'package:komtim_partner/data/repositories/auth_repository_impl.dart';
 import 'package:komtim_partner/domain/repositories/auth_repository.dart';
 import 'package:komtim_partner/domain/usecases/do_login.dart';
@@ -12,6 +10,9 @@ import 'package:komtim_partner/presentation/pages/auth/bloc/login_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:komtim_partner/presentation/pages/home/bloc/main_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../data/datasources/http_service.dart';
+import '../data/datasources/response_parser.dart';
 
 final locator = GetIt.instance;
 
@@ -46,7 +47,8 @@ Future<void> initDependencies() async {
   locator.registerLazySingleton(() => http.Client());
 
   // http service
-  locator.registerLazySingleton(() => HttpService(client: locator()));
+  locator.registerLazySingleton(
+      () => HttpService(client: locator(), sharedPref: locator()));
   locator.registerLazySingleton(() => ResponseParser());
 
   // Ensure SharedPreferences is ready

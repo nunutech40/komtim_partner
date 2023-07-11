@@ -9,7 +9,6 @@ import 'package:komtim_partner/data/models/login_response.dart';
 import 'package:komtim_partner/domain/entities/login_model.dart';
 import 'package:komtim_partner/domain/repositories/auth_repository.dart';
 
-import '../../common/exception.dart';
 import 'base_repository.dart';
 
 class AuthRepositoryImpl extends BaseRepository implements AuthRepository {
