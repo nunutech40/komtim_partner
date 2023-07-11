@@ -26,9 +26,8 @@ class ProfilePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            BlocListener<MainBloc, MainState>(
+            BlocConsumer<MainBloc, MainState>(
               listener: (context, state) {
-                // Handle state changes here
                 if (state.status == RequestStatus.success) {
                   AppRouter.router.go(PAGES.login.screenPath);
                 } else if (state.status == RequestStatus.failure) {
@@ -40,9 +39,12 @@ class ProfilePage extends StatelessWidget {
                   );
                 }
               },
-              child: const ProfileRow(
-                name: 'Nunu Nugraha',
-              ),
+              builder: (context, state) {
+                return ProfileRow(
+                    name: state.profileData?.fullname ??
+                        'Nunu Nugraha', // replace with your actual data
+                    id: state.profileData?.id.toString());
+              },
             ),
             const SizedBox(
               height: 32.0,
@@ -85,8 +87,9 @@ class ProfilePage extends StatelessWidget {
 
 class ProfileRow extends StatelessWidget {
   final String name;
+  final String? id;
 
-  const ProfileRow({Key? key, required this.name}) : super(key: key);
+  const ProfileRow({Key? key, required this.name, this.id}) : super(key: key);
 
   String getInitials(String name) {
     final names = name.split(" ");
@@ -119,7 +122,7 @@ class ProfileRow extends StatelessWidget {
         const SizedBox(width: 10),
         ProfileDetails(
           name: name,
-          id: '123456',
+          id: id,
         ),
       ],
     );
@@ -145,7 +148,7 @@ class ProfileAvatar extends StatelessWidget {
 
 class ProfileDetails extends StatelessWidget {
   final String name;
-  final String id;
+  final String? id;
 
   const ProfileDetails({Key? key, required this.name, required this.id})
       : super(key: key);
@@ -163,7 +166,7 @@ class ProfileDetails extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 5),
-        Text(id, style: TextStyle(fontSize: 12)),
+        Text(id ?? '0', style: const TextStyle(fontSize: 12)),
       ],
     );
   }

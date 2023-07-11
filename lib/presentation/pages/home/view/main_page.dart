@@ -34,6 +34,12 @@ class _MainPageState extends State<MainPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    context.read<MainBloc>().add(const MainPageDidload());
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocListener<MainBloc, MainState>(
       listener: (context, state) => _handleStateChange(context, state),
@@ -42,11 +48,6 @@ class _MainPageState extends State<MainPage> {
   }
 
   void _handleStateChange(BuildContext context, MainState state) {
-    if (state.status == RequestStatus.success) {
-      AppRouter.router.go(PAGES.main.screenPath);
-    } else {
-      AppRouter.router.go(PAGES.login.screenPath);
-    }
     if (state.status == RequestStatus.failure) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

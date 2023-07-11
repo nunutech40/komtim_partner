@@ -23,8 +23,8 @@ final locator = GetIt.instance;
 Future<void> initDependencies() async {
   // inject bloc
   locator.registerFactory(() => LoginBloc(doLoginUseCase: locator()));
-  locator.registerFactory(() =>
-      MainBloc(getAuthStateUseCase: locator(), doLogoutUseCase: locator()));
+  locator.registerFactory(
+      () => MainBloc(doLogoutUseCase: locator(), getProfileUseCase: locator()));
 
   // inject usecase
   locator.registerLazySingleton(() => DoLoginUseCase(locator(), locator()));
