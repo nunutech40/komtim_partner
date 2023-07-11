@@ -21,10 +21,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<bool> doLogout() async {
     final response = await client.requestWithToken(
-      method: 'POST',
+      method: 'GET',
       url: Endpoints.logout,
     );
-    return responseParser.parseResponse<bool>(response, (_) => true);
+    return responseParser.parseResponseMeta<bool>(response, (_) => true);
   }
 
   @override

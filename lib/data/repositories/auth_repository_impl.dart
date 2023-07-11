@@ -46,8 +46,8 @@ class AuthRepositoryImpl extends BaseRepository implements AuthRepository {
   @override
   Future<Either<Failure, bool>> doLogout() async {
     return executeEither(() async {
-      sharedPref.removeDataPref();
       final result = await remoteDataSource.doLogout();
+
       if (result) {
         sharedPref.removeDataPref();
       }

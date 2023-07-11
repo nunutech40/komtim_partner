@@ -4,6 +4,6 @@ class Endpoints {
 
   // These are the endpoints
   static const String login = '$_BaseURL/api/v1/auth/login';
-  static const String logout = '$_BaseURL/api/v1/auth/profile/logout';
+  static const String logout = '$_BaseURL/api/v1/auth/logout';
   static const String getProfile = '$_BaseURL/api/v1/auth/profile';
 }
