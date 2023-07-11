@@ -6,12 +6,14 @@ class CustomPasswordField extends StatefulWidget {
   final String label;
   final String hint;
   final ValueChanged<String> onChanged;
+  final String? errorText; // Add this
 
   const CustomPasswordField({
     Key? key,
     required this.label,
     required this.hint,
     required this.onChanged,
+    this.errorText, // And this
   }) : super(key: key);
 
   @override
@@ -21,15 +23,12 @@ class CustomPasswordField extends StatefulWidget {
 class _CustomPasswordFieldState extends State<CustomPasswordField> {
   final FocusNode _focusNode = FocusNode();
   bool _obscureText = true;
-  bool _hasFocus = false;
 
   @override
   void initState() {
     super.initState();
     _focusNode.addListener(() {
-      setState(() {
-        _hasFocus = _focusNode.hasFocus;
-      });
+      setState(() {});
     });
   }
 
@@ -42,7 +41,11 @@ class _CustomPasswordFieldState extends State<CustomPasswordField> {
   @override
   Widget build(BuildContext context) {
     final Color borderColor =
-        _hasFocus ? primaryColor : Colors.grey; // Adjust the border color
+        widget.errorText != null && widget.errorText!.isNotEmpty
+            ? Colors.red
+            : (_focusNode.hasFocus
+                ? primaryColor
+                : Colors.grey); // Adjust the border color
 
     return TextField(
       focusNode: _focusNode,
@@ -59,14 +62,14 @@ class _CustomPasswordFieldState extends State<CustomPasswordField> {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.0),
-          borderSide: const BorderSide(
-            color: primaryColor,
+          borderSide: BorderSide(
+            color: borderColor,
             width: 2.0,
           ),
         ),
         labelText: widget.label,
         labelStyle: TextStyle(
-          color: _hasFocus ? primaryColor : Colors.black,
+          color: _focusNode.hasFocus ? primaryColor : Colors.black,
           fontSize: 16,
         ),
         hintText: widget.hint,
@@ -75,6 +78,7 @@ class _CustomPasswordFieldState extends State<CustomPasswordField> {
           fontSize: 16,
         ),
         floatingLabelBehavior: FloatingLabelBehavior.always,
+        errorText: widget.errorText, // Add this
         suffixIcon: IconButton(
           icon: _obscureText
               ? Image.asset('assets/images/ic_eye-slash.png')

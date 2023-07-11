@@ -20,27 +20,6 @@ class LoginPage extends StatelessWidget {
         if (state.status == RequestStatus.success) {
           AppRouter.router.go(PAGES.main.screenPath);
         }
-        if (state.status == RequestStatus.loading) {
-          const CircularProgressIndicator();
-        }
-        if (state.status == RequestStatus.failure) {
-          ScaffoldMessenger.of(context)
-            ..removeCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(
-                content: Text(state.message),
-                duration: const Duration(seconds: 3),
-                action: SnackBarAction(
-                  label: 'OK',
-                  onPressed: ScaffoldMessenger.of(context).hideCurrentSnackBar,
-                ),
-                onVisible: () {
-                  context.read<LoginBloc>().add(
-                      const EmptyEvent()); // here you add an event that will update the state.status to RequestStatus.empty
-                },
-              ),
-            );
-        }
       },
       child: const _LoginForm(),
     );
@@ -124,11 +103,18 @@ class _LoginHeader extends StatelessWidget {
 class _LoginUsername extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return CustomTextField(
-      label: 'Username',
-      hint: 'Masukkan username kamu',
-      onChanged: (value) {
-        context.read<LoginBloc>().add(LoginEmailChangedEvent(email: value));
+    return BlocBuilder<LoginBloc, LoginState>(
+      builder: (context, state) {
+        return CustomTextField(
+          label: 'Username',
+          hint: 'Masukkan username kamu',
+          errorText: state.usernameErrorMessage.isNotEmpty
+              ? state.usernameErrorMessage
+              : null,
+          onChanged: (value) {
+            context.read<LoginBloc>().add(LoginEmailChangedEvent(email: value));
+          },
+        );
       },
     );
   }
@@ -137,13 +123,20 @@ class _LoginUsername extends StatelessWidget {
 class _LoginPassword extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return CustomPasswordField(
-      label: 'Password',
-      hint: 'Password kamu',
-      onChanged: (value) {
-        context
-            .read<LoginBloc>()
-            .add(LoginPasswordChangedEvent(password: value));
+    return BlocBuilder<LoginBloc, LoginState>(
+      builder: (context, state) {
+        return CustomPasswordField(
+          label: 'Password',
+          hint: 'Password kamu',
+          errorText: state.passwordErrorMessage.isNotEmpty
+              ? state.passwordErrorMessage
+              : null,
+          onChanged: (value) {
+            context
+                .read<LoginBloc>()
+                .add(LoginPasswordChangedEvent(password: value));
+          },
+        );
       },
     );
   }

@@ -5,12 +5,14 @@ class CustomTextField extends StatefulWidget {
   final String label;
   final String hint;
   final ValueChanged<String> onChanged;
+  final String? errorText;
 
   const CustomTextField({
     Key? key,
     required this.label,
     required this.hint,
     required this.onChanged,
+    this.errorText,
   }) : super(key: key);
 
   @override
@@ -40,7 +42,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
     final Color borderColor =
-        _hasFocus ? primaryColor : Colors.grey; // Adjust the border color
+        widget.errorText != null && widget.errorText!.isNotEmpty
+            ? Colors.red
+            : (_hasFocus ? primaryColor : Colors.grey);
 
     return TextField(
       focusNode: _focusNode,
@@ -50,7 +54,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.0),
           borderSide: BorderSide(
-            color: borderColor, // Set the border color
+            color: borderColor,
             width: 2.0,
           ),
         ),
@@ -68,10 +72,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
         ),
         hintText: widget.hint,
         hintStyle: TextStyle(
-          color: borderColor, // Set the same color as the border
+          color: borderColor,
           fontSize: 16,
         ),
         floatingLabelBehavior: FloatingLabelBehavior.always,
+        errorText: widget.errorText,
       ),
     );
   }
