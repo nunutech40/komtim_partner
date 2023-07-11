@@ -17,6 +17,18 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<LoginButtonPressedEvent>(_handleLoginWithUsernameAndPasswordEvent);
     on<LoginEmailChangedEvent>(_handleLoginUsernameChangedEvent);
     on<LoginPasswordChangedEvent>(_handleLoginPasswordChangedEvent);
+    on<LoginStatusResetEvent>(_handleStatusResetEvent);
+  }
+
+  Future<void> _handleStatusResetEvent(
+    LoginStatusResetEvent event,
+    Emitter<LoginState> emit,
+  ) async {
+    emit(state.copyWith(
+      status: RequestStatus.empty,
+      usernameErrorMessage: '',
+      passwordErrorMessage: '',
+    ));
   }
 
   Future<void> _handleLoginUsernameChangedEvent(
@@ -85,7 +97,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         }
 
         emit(state.copyWith(
-          status: RequestStatus.failure,
+          status: RequestStatus.empty,
           usernameErrorMessage: newMessageError,
           passwordErrorMessage: newMessageError,
         ));

@@ -19,6 +19,16 @@ class LoginPage extends StatelessWidget {
       listener: (context, state) {
         if (state.status == RequestStatus.success) {
           AppRouter.router.go(PAGES.main.screenPath);
+        } else if (state.status == RequestStatus.failure) {
+          if (!state.usernameErrorMessage
+              .contains('Username atau password salah')) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                  content: Text(state.usernameErrorMessage),
+                  backgroundColor: errorColor),
+            );
+            context.read<LoginBloc>().add(LoginStatusResetEvent());
+          }
         }
       },
       child: const _LoginForm(),
