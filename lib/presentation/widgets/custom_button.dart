@@ -4,12 +4,12 @@ import '../../common/styles.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   const CustomButton({
     Key? key,
     required this.text,
-    required this.onPressed,
+    this.onPressed,
   }) : super(key: key);
 
   @override

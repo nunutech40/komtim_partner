@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:komtim_partner/presentation/widgets/custom_button.dart';
 import 'package:komtim_partner/presentation/widgets/custom_text_field.dart';
 
 import '../../../../common/styles.dart';
 import '../../../router/app_router.dart';
 import '../../../router/router_utils.dart';
+import '../../../widgets/custom_desc_field.dart';
 
 class ProfileInfoUpdatePage extends StatefulWidget {
   const ProfileInfoUpdatePage({Key? key}) : super(key: key);
@@ -25,28 +27,66 @@ class _ProfileInfoUpdatePageState extends State<ProfileInfoUpdatePage> {
           },
         ),
       ),
-      body: const Padding(
-          padding:
-              EdgeInsets.symmetric(horizontal: 24), // Add horizontal padding
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
             children: [
-              SizedBox(
-                height: 11,
-              ),
-              Center(
+              const SizedBox(height: 11),
+              const Center(
                 child: ProfileRow(),
               ),
-              SizedBox(
-                height: 34.0,
-              ),
-              CustomTextField(
+              const SizedBox(height: 34.0),
+              const CustomTextField(
                 label: 'No. Telepon',
                 hint: '087****8',
                 onChanged: null,
                 onlyNumbers: true,
-              )
+              ),
+              const SizedBox(height: 24.0),
+              const CustomTextField(
+                label: 'Username',
+                hint: 'kikoviano',
+                onChanged: null,
+              ),
+              const SizedBox(height: 24.0),
+              const CustomTextField(
+                label: 'Email',
+                hint: 'gerardus@gmail.com',
+                onChanged: null,
+              ),
+              const SizedBox(height: 24.0),
+              const CustomDescriptionField(
+                label: 'Alamat',
+                hint: 'Jln, Somba No. 5 Salatiga, Jawa Tengah',
+                onChanged: null,
+              ),
+              const SizedBox(height: 24.0),
+              const CustomTextField(
+                label: 'Tanggal Bergabung',
+                hint: '01 Januari 2020',
+                onChanged: null,
+              ),
+              const SizedBox(height: 24.0),
+              const CustomTextField(
+                label: 'Nama Bank',
+                hint: 'BRI',
+                onChanged: null,
+              ),
+              const SizedBox(height: 24.0),
+              const CustomTextField(
+                label: 'Nomor Rekening',
+                hint: '2138393936753',
+                onChanged: null,
+                onlyNumbers: true,
+              ),
+              const SizedBox(height: 32.0),
+              _SubmitButton(),
+              const SizedBox(height: 32.0),
             ],
-          )),
+          ),
+        ),
+      ),
     );
   }
 }
@@ -109,6 +149,19 @@ class ProfileDetails extends StatelessWidget {
         const SizedBox(height: 5),
         Text(id, style: AppTypography.regular12),
       ],
+    );
+  }
+}
+
+class _SubmitButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: CustomButton(
+        text: 'Simpan',
+        onPressed: () {},
+      ),
     );
   }
 }
