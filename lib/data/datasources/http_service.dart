@@ -7,37 +7,49 @@ class HttpService {
 
   HttpService({required this.client, required this.sharedPref});
 
-  Future<http.Response> postWithToken(String url, String? body,
-      {Map<String, String>? headers}) async {
-    // Add your token to the headers
+  Future<http.Response> _request({
+    required String method,
+    required String url,
+    String? body,
+    Map<String, String>? headers,
+  }) async {
+    Uri uri = Uri.parse(url);
+
+    switch (method.toUpperCase()) {
+      case 'POST':
+        return await client.post(uri, headers: headers, body: body);
+      case 'PUT':
+        return await client.put(uri, headers: headers, body: body);
+      case 'DELETE':
+        return await client.delete(uri, headers: headers);
+      case 'GET':
+      default:
+        return await client.get(uri, headers: headers);
+    }
+  }
+
+  Future<http.Response> requestWithToken({
+    required String method,
+    required String url,
+    String? body,
+    Map<String, String>? headers,
+  }) async {
     headers = headers ?? {'Content-Type': 'application/json; charset=UTF-8'};
     final token = await sharedPref.getToken();
     headers['Authorization'] = 'Bearer $token';
 
-    // Make the POST request
-    final response = await client.post(
-      Uri.parse(url),
-      headers: headers,
-      body: body,
-    );
-
-    return response;
+    return await _request(
+        method: method, url: url, body: body, headers: headers);
   }
 
-  Future<http.Response> postWithoutToken(String url, String? body,
-      {Map<String, String>? headers}) async {
-    // Add a default content type header if none is provided
+  Future<http.Response> requestWithoutToken({
+    required String method,
+    required String url,
+    String? body,
+    Map<String, String>? headers,
+  }) async {
     headers = headers ?? {'Content-Type': 'application/json; charset=UTF-8'};
-
-    // Make the POST request
-    final response = await client.post(
-      Uri.parse(url),
-      headers: headers,
-      body: body,
-    );
-
-    return response;
+    return await _request(
+        method: method, url: url, body: body, headers: headers);
   }
-
-  // Implement other methods like getWithToken, getWithoutToken etc.
 }

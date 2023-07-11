@@ -16,7 +16,10 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
 
   @override
   Future<ProfileResponse> getProfile() async {
-    final response = await client.postWithToken(Endpoints.getProfile, null);
+    final response = await client.requestWithToken(
+      method: 'GET',
+      url: Endpoints.getProfile,
+    );
     return responseParser.parseResponse<ProfileResponse>(
         response, (json) => ProfileResponse.fromJson(json));
   }

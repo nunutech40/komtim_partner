@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:komtim_partner/domain/usecases/do_login.dart';
+import 'package:komtim_partner/domain/usecases/do_login_use_case.dart';
 import 'package:meta/meta.dart';
 import 'package:bloc/bloc.dart';
 

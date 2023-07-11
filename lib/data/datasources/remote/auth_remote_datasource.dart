@@ -20,7 +20,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<bool> doLogout() async {
-    final response = await client.postWithToken(Endpoints.logout, null);
+    final response = await client.requestWithToken(
+      method: 'POST',
+      url: Endpoints.logout,
+    );
     return responseParser.parseResponse<bool>(response, (_) => true);
   }
 
@@ -31,7 +34,13 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       'username': username,
       'password': password,
     });
-    final response = await client.postWithoutToken(Endpoints.login, body);
+
+    final response = await client.requestWithoutToken(
+      method: 'POST',
+      url: Endpoints.login,
+      body: body,
+    );
+
     return responseParser.parseResponse<LoginResponse>(
         response, (json) => LoginResponse.fromJson(json));
   }

@@ -23,6 +23,15 @@ class SharedPref {
     await prefs.setString(PROFILEDATA, profileDataJson);
   }
 
+  Future<ProfileResponse?> getProfileResponse() async {
+    final prefs = await sharedPreferences;
+    String? dataProfile = prefs.getString(PROFILEDATA);
+    if (dataProfile == null) {
+      return null;
+    }
+    return ProfileResponse.fromJson(jsonDecode(dataProfile));
+  }
+
   Future<void> removeDataPref() async {
     final prefs = await sharedPreferences;
     prefs.clear();

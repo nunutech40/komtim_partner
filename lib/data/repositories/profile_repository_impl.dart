@@ -34,3 +34,5 @@ class ProfileRepositoryImpl extends BaseRepository
     });
   }
 }
+
+// sharedPref.saveProfileData(result);
