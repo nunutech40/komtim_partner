@@ -26,22 +26,6 @@ class LoginPage extends StatelessWidget {
   }
 }
 
-class _SubmitButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: CustomButton(
-        text: 'Login',
-        onPressed: () {
-          context.read<LoginBloc>().add(const LoginButtonPressedEvent());
-          ScaffoldMessenger.of(context).removeCurrentSnackBar();
-        },
-      ),
-    );
-  }
-}
-
 class _LoginForm extends StatelessWidget {
   const _LoginForm({
     Key? key,
@@ -52,7 +36,7 @@ class _LoginForm extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(32.0),
+          padding: const EdgeInsets.all(32.0),
           child: Align(
             alignment: Alignment.centerLeft,
             child: Column(
@@ -152,6 +136,21 @@ class _ForgotPasswordText extends StatelessWidget {
       style: TextStyle(
         fontSize: 12,
         color: primaryColor,
+      ),
+    );
+  }
+}
+
+class _SubmitButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: CustomButton(
+        text: 'Login',
+        onPressed: () {
+          context.read<LoginBloc>().add(const LoginButtonPressedEvent());
+        },
       ),
     );
   }

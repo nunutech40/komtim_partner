@@ -46,11 +46,15 @@ class ProfilePage extends StatelessWidget {
               title: 'Informasi',
               leadingIcon: Image.asset('assets/images/ic-profile-circle.png'),
               trailingIcon: Image.asset('assets/images/ic-arrow-right.png'),
+              onTap: () {
+                AppRouter.router.push(PAGES.profileInfo.screenPath);
+              },
             ),
             CustomTile(
               title: 'Ubah Password',
               leadingIcon: Image.asset('assets/images/ic-security-safe.png'),
               trailingIcon: Image.asset('assets/images/ic-arrow-right.png'),
+              onTap: () {},
             ),
             const SizedBox(
               height: 24.0,

@@ -3,6 +3,7 @@ enum PAGES {
   login,
   main,
   error,
+  profileInfo,
 }
 
 extension AppPageExtension on PAGES {
@@ -16,6 +17,8 @@ extension AppPageExtension on PAGES {
         return "/login";
       case PAGES.error:
         return "/error";
+      case PAGES.profileInfo:
+        return "/profile_info";
       default:
         return "/";
     }
@@ -31,6 +34,8 @@ extension AppPageExtension on PAGES {
         return "SPLASH";
       case PAGES.error:
         return "ERROR";
+      case PAGES.profileInfo:
+        return "PROFILEINFO";
       default:
         return "HOME";
     }
@@ -44,6 +49,8 @@ extension AppPageExtension on PAGES {
         return "Login";
       case PAGES.splash:
         return "Splash";
+      case PAGES.profileInfo:
+        return "Profile Info";
       case PAGES.error:
         return "Error";
       default:
