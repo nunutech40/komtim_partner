@@ -6,6 +6,7 @@ import 'package:komtim_partner/presentation/pages/home/view/profile_page.dart';
 import 'package:komtim_partner/presentation/pages/not_found_page.dart';
 import 'package:komtim_partner/presentation/pages/auth/view/login_page.dart';
 import 'package:komtim_partner/presentation/pages/auth/splash_screen.dart';
+import 'package:komtim_partner/presentation/pages/profile/bloc/profile_bloc.dart';
 import 'package:komtim_partner/presentation/pages/profile/view/profile_info_update_page.dart';
 import 'package:komtim_partner/presentation/router/router_utils.dart';
 import 'package:go_router/go_router.dart';
@@ -46,8 +47,11 @@ class AppRouter {
       GoRoute(
         path: PAGES.profileInfo.screenPath,
         name: PAGES.profileInfo.screenName,
-        builder: (context, state) => const ProfileInfoUpdatePage(),
-      ),
+        builder: (context, state) => BlocProvider(
+          create: (context) => di.locator<ProfileBloc>(),
+          child: const ProfileInfoUpdatePage(),
+        ),
+      )
     ],
     errorBuilder: (context, state) => const NotFoundPage(),
   );

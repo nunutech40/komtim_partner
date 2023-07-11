@@ -7,6 +7,7 @@ class CustomDescriptionField extends StatefulWidget {
   final String hint;
   final ValueChanged<String>? onChanged;
   final String? errorText;
+  final String textValue;
 
   const CustomDescriptionField({
     Key? key,
@@ -14,6 +15,7 @@ class CustomDescriptionField extends StatefulWidget {
     required this.hint,
     this.onChanged,
     this.errorText,
+    this.textValue = '',
   }) : super(key: key);
 
   @override
@@ -23,6 +25,7 @@ class CustomDescriptionField extends StatefulWidget {
 class _CustomDescriptionFieldState extends State<CustomDescriptionField> {
   final FocusNode _focusNode = FocusNode();
   bool _hasFocus = false;
+  late TextEditingController _textEditingController;
 
   @override
   void initState() {
@@ -32,10 +35,12 @@ class _CustomDescriptionFieldState extends State<CustomDescriptionField> {
         _hasFocus = _focusNode.hasFocus;
       });
     });
+    _textEditingController = TextEditingController(text: widget.textValue);
   }
 
   @override
   void dispose() {
+    _textEditingController.dispose();
     _focusNode.dispose();
     super.dispose();
   }
@@ -49,6 +54,7 @@ class _CustomDescriptionFieldState extends State<CustomDescriptionField> {
 
     return SingleChildScrollView(
       child: TextField(
+        controller: _textEditingController,
         focusNode: _focusNode,
         onChanged: widget.onChanged,
         keyboardType: TextInputType.multiline,

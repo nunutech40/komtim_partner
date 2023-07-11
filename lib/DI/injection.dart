@@ -13,6 +13,7 @@ import 'package:komtim_partner/domain/usecases/get_profile_use_case.dart';
 import 'package:komtim_partner/presentation/pages/auth/bloc/login_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:komtim_partner/presentation/pages/home/bloc/main_bloc.dart';
+import 'package:komtim_partner/presentation/pages/profile/bloc/profile_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/datasources/http_service.dart';
@@ -25,6 +26,7 @@ Future<void> initDependencies() async {
   locator.registerFactory(() => LoginBloc(doLoginUseCase: locator()));
   locator.registerFactory(
       () => MainBloc(doLogoutUseCase: locator(), getProfileUseCase: locator()));
+  locator.registerFactory(() => ProfileBloc(getProfileUseCase: locator()));
 
   // inject usecase
   locator.registerLazySingleton(() => DoLoginUseCase(locator(), locator()));

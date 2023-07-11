@@ -8,6 +8,7 @@ class CustomTextField extends StatefulWidget {
   final ValueChanged<String>? onChanged;
   final String? errorText;
   final bool onlyNumbers;
+  final String textValue;
 
   const CustomTextField({
     Key? key,
@@ -16,6 +17,7 @@ class CustomTextField extends StatefulWidget {
     this.onChanged,
     this.errorText,
     this.onlyNumbers = false,
+    this.textValue = '',
   }) : super(key: key);
 
   @override
@@ -25,6 +27,7 @@ class CustomTextField extends StatefulWidget {
 class _CustomTextFieldState extends State<CustomTextField> {
   final FocusNode _focusNode = FocusNode();
   bool _hasFocus = false;
+  late TextEditingController _textEditingController;
 
   @override
   void initState() {
@@ -34,10 +37,12 @@ class _CustomTextFieldState extends State<CustomTextField> {
         _hasFocus = _focusNode.hasFocus;
       });
     });
+    _textEditingController = TextEditingController(text: widget.textValue);
   }
 
   @override
   void dispose() {
+    _textEditingController.dispose();
     _focusNode.dispose();
     super.dispose();
   }
@@ -57,6 +62,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
     }
 
     return TextField(
+      controller: _textEditingController,
       focusNode: _focusNode,
       onChanged: (value) {
         if (widget.onlyNumbers) {

@@ -3,10 +3,14 @@ import 'package:komtim_partner/presentation/widgets/custom_button.dart';
 import 'package:komtim_partner/presentation/widgets/custom_text_field.dart';
 
 import 'dart:math';
+import '../../../../common/enum_status.dart';
 import '../../../../common/styles.dart';
 import '../../../router/app_router.dart';
 import '../../../router/router_utils.dart';
 import '../../../widgets/custom_desc_field.dart';
+import '../bloc/profile_bloc.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfileInfoUpdatePage extends StatefulWidget {
   const ProfileInfoUpdatePage({Key? key}) : super(key: key);
@@ -17,87 +21,133 @@ class ProfileInfoUpdatePage extends StatefulWidget {
 
 class _ProfileInfoUpdatePageState extends State<ProfileInfoUpdatePage> {
   @override
+  void initState() {
+    super.initState();
+    context.read<ProfileBloc>().add(const ProfilePageDidload());
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Informasi Profile'),
-        leading: IconButton(
-          icon: Image.asset('assets/images/ic-arrow-left.png'),
-          onPressed: () {
-            AppRouter.router.pop();
-          },
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            children: [
-              const SizedBox(height: 11),
-              const Center(
-                child: ProfileRow(
-                  name: 'Nunu Nugraha',
+    return BlocConsumer<ProfileBloc, ProfileState>(
+      listener: (context, state) {
+        if (state.status == RequestStatus.failure) {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              const SnackBar(content: Text('Failed to load profile')),
+            );
+        }
+      },
+      builder: (context, state) {
+        if (state.status == RequestStatus.success) {
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text('Informasi Profile'),
+              leading: IconButton(
+                icon: Image.asset('assets/images/ic-arrow-left.png'),
+                onPressed: () {
+                  AppRouter.router.pop();
+                },
+              ),
+            ),
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 11),
+                    Center(
+                      child: ProfileRow(
+                        name: state.profileData?.fullname ?? 'Loading...',
+                        id: state.profileData?.id.toString() ?? 'Loading...',
+                      ),
+                    ),
+                    const SizedBox(height: 34.0),
+                    CustomTextField(
+                      label: 'No. Telepon',
+                      hint: '087****8',
+                      onChanged: null,
+                      onlyNumbers: true,
+                      textValue: state.profileData?.noTelp ?? '',
+                    ),
+                    const SizedBox(height: 24.0),
+                    CustomTextField(
+                      label: 'Username',
+                      hint: 'kikoviano',
+                      onChanged: null,
+                      textValue: state.profileData?.username ?? '',
+                    ),
+                    const SizedBox(height: 24.0),
+                    CustomTextField(
+                      label: 'Email',
+                      hint: 'gerardus@gmail.com',
+                      onChanged: null,
+                      textValue: state.profileData?.email ?? '',
+                    ),
+                    const SizedBox(height: 24.0),
+                    CustomDescriptionField(
+                      label: 'Alamat',
+                      hint: 'Jln, Somba No. 5 Salatiga, Jawa Tengah',
+                      onChanged: null,
+                      textValue: state.profileData?.address ?? '',
+                    ),
+                    const SizedBox(height: 24.0),
+                    CustomTextField(
+                      label: 'Tanggal Bergabung',
+                      hint: '01 Januari 2020',
+                      onChanged: null,
+                      textValue: state.profileData?.joinDate ?? '',
+                    ),
+                    const SizedBox(height: 24.0),
+                    CustomTextField(
+                      label: 'Nama Bank',
+                      hint: 'BRI',
+                      onChanged: null,
+                      textValue: state.profileData?.bankName ?? '',
+                    ),
+                    const SizedBox(height: 24.0),
+                    CustomTextField(
+                      label: 'Nomor Rekening',
+                      hint: '2138393936753',
+                      onChanged: null,
+                      onlyNumbers: true,
+                      textValue: state.profileData?.bankAccountNumber ?? '',
+                    ),
+                    const SizedBox(height: 32.0),
+                    _SubmitButton(),
+                    const SizedBox(height: 32.0),
+                  ],
                 ),
               ),
-              const SizedBox(height: 34.0),
-              const CustomTextField(
-                label: 'No. Telepon',
-                hint: '087****8',
-                onChanged: null,
-                onlyNumbers: true,
+            ),
+          );
+        } else {
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text('Informasi Profile'),
+              leading: IconButton(
+                icon: Image.asset('assets/images/ic-arrow-left.png'),
+                onPressed: () {
+                  AppRouter.router.pop();
+                },
               ),
-              const SizedBox(height: 24.0),
-              const CustomTextField(
-                label: 'Username',
-                hint: 'kikoviano',
-                onChanged: null,
-              ),
-              const SizedBox(height: 24.0),
-              const CustomTextField(
-                label: 'Email',
-                hint: 'gerardus@gmail.com',
-                onChanged: null,
-              ),
-              const SizedBox(height: 24.0),
-              const CustomDescriptionField(
-                label: 'Alamat',
-                hint: 'Jln, Somba No. 5 Salatiga, Jawa Tengah',
-                onChanged: null,
-              ),
-              const SizedBox(height: 24.0),
-              const CustomTextField(
-                label: 'Tanggal Bergabung',
-                hint: '01 Januari 2020',
-                onChanged: null,
-              ),
-              const SizedBox(height: 24.0),
-              const CustomTextField(
-                label: 'Nama Bank',
-                hint: 'BRI',
-                onChanged: null,
-              ),
-              const SizedBox(height: 24.0),
-              const CustomTextField(
-                label: 'Nomor Rekening',
-                hint: '2138393936753',
-                onChanged: null,
-                onlyNumbers: true,
-              ),
-              const SizedBox(height: 32.0),
-              _SubmitButton(),
-              const SizedBox(height: 32.0),
-            ],
-          ),
-        ),
-      ),
+            ),
+            body: const Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+      },
     );
   }
 }
 
 class ProfileRow extends StatelessWidget {
   final String name;
+  final String id;
 
-  const ProfileRow({Key? key, required this.name}) : super(key: key);
+  const ProfileRow({Key? key, required this.name, required this.id})
+      : super(key: key);
 
   String getInitials(String name) {
     final names = name.split(" ");
@@ -127,10 +177,10 @@ class ProfileRow extends StatelessWidget {
         ProfileAvatar(
           imageUrl: imageUrl,
         ),
-        SizedBox(height: 16.0),
+        const SizedBox(height: 16.0),
         ProfileDetails(
           name: name,
-          id: '123456',
+          id: id,
         ),
       ],
     );
