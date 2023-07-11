@@ -12,6 +12,11 @@ class AppTypography {
     fontWeight: FontWeight.bold,
   );
 
+  static final TextStyle semiBold16 = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w600, // FontWeight.w600 corresponds to semiBold
+  );
+
   static final TextStyle medium14 = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w500, // FontWeight.w500 corresponds to medium
@@ -19,6 +24,11 @@ class AppTypography {
 
   static final TextStyle regular14 = TextStyle(
     fontSize: 14,
+    fontWeight: FontWeight.normal,
+  );
+
+  static final TextStyle regular12 = TextStyle(
+    fontSize: 12,
     fontWeight: FontWeight.normal,
   );
 }

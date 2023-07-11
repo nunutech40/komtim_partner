@@ -19,7 +19,8 @@ class ProfilePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24), // Add horizontal padding
+        padding: const EdgeInsets.symmetric(
+            horizontal: 24), // Add horizontal padding
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
