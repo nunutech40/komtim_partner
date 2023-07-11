@@ -71,12 +71,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     emit(state.copyWith(status: RequestStatus.loading));
 
     final result = await doLoginUseCase.execute(state.username, state.password);
-    print('cek datattaaaa: ${result}');
+
     result.fold(
       (failure) {
         String newMessageError = failure.message;
 
-        if (newMessageError.contains('Invalid username or password') ||
+        if (newMessageError == 'Invalid username or password' ||
             newMessageError.contains('Resource Not Found')) {
           newMessageError = 'Username atau password salah';
         } else {
@@ -90,9 +90,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           passwordErrorMessage: newMessageError,
         ));
       },
-      // Handle success case if needed
-      (data) {
-        // Handle success case if needed
+      (loginData) {
+        emit(state.copyWith(message: 'Success', status: RequestStatus.success));
       },
     );
   }
