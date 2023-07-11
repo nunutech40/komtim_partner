@@ -9,6 +9,8 @@ import '../../../router/router_utils.dart';
 import '../../../widgets/custom_outline_button.dart';
 import '../../../widgets/custom_tile.dart';
 
+import 'dart:math';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -38,7 +40,9 @@ class ProfilePage extends StatelessWidget {
                   );
                 }
               },
-              child: const ProfileRow(),
+              child: const ProfileRow(
+                name: 'Nunu Nugraha',
+              ),
             ),
             const SizedBox(
               height: 32.0,
@@ -80,20 +84,41 @@ class ProfilePage extends StatelessWidget {
 }
 
 class ProfileRow extends StatelessWidget {
-  const ProfileRow({Key? key}) : super(key: key);
+  final String name;
+
+  const ProfileRow({Key? key, required this.name}) : super(key: key);
+
+  String getInitials(String name) {
+    final names = name.split(" ");
+    if (names.length > 1) {
+      final firstName = names[0];
+      final lastName = names[names.length - 1];
+      return "${firstName[0]}${lastName[0]}";
+    } else {
+      return name[0];
+    }
+  }
+
+  Color getRandomColor() {
+    final random = Random();
+    final colorCode = random.nextInt(0xFFFFFF);
+    return Color(colorCode).withOpacity(1.0);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
+    final imageUrl =
+        'https://placehold.jp/${getRandomColor().value.toRadixString(16)}/ffffff/150x150.png?text=${getInitials(name)}';
+
+    return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         ProfileAvatar(
-          imageUrl:
-              'https://via.placeholder.com/150', // replace with your image url
+          imageUrl: imageUrl,
         ),
-        SizedBox(width: 10),
+        const SizedBox(width: 10),
         ProfileDetails(
-          name: 'Nunu Nugraha',
+          name: name,
           id: '123456',
         ),
       ],

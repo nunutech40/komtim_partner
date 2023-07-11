@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:komtim_partner/presentation/widgets/custom_button.dart';
 import 'package:komtim_partner/presentation/widgets/custom_text_field.dart';
 
+import 'dart:math';
 import '../../../../common/styles.dart';
 import '../../../router/app_router.dart';
 import '../../../router/router_utils.dart';
@@ -34,7 +35,9 @@ class _ProfileInfoUpdatePageState extends State<ProfileInfoUpdatePage> {
             children: [
               const SizedBox(height: 11),
               const Center(
-                child: ProfileRow(),
+                child: ProfileRow(
+                  name: 'Nunu Nugraha',
+                ),
               ),
               const SizedBox(height: 34.0),
               const CustomTextField(
@@ -92,20 +95,41 @@ class _ProfileInfoUpdatePageState extends State<ProfileInfoUpdatePage> {
 }
 
 class ProfileRow extends StatelessWidget {
-  const ProfileRow({Key? key}) : super(key: key);
+  final String name;
+
+  const ProfileRow({Key? key, required this.name}) : super(key: key);
+
+  String getInitials(String name) {
+    final names = name.split(" ");
+    if (names.length > 1) {
+      final firstName = names[0];
+      final lastName = names[names.length - 1];
+      return "${firstName[0]}${lastName[0]}";
+    } else {
+      return name[0];
+    }
+  }
+
+  Color getRandomColor() {
+    final random = Random();
+    final colorCode = random.nextInt(0xFFFFFF);
+    return Color(colorCode).withOpacity(1.0);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    final imageUrl =
+        'https://placehold.jp/${getRandomColor().value.toRadixString(16)}/ffffff/150x150.png?text=${getInitials(name)}';
+
+    return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         ProfileAvatar(
-          imageUrl:
-              'https://via.placeholder.com/150', // replace with your image url
+          imageUrl: imageUrl,
         ),
         SizedBox(height: 16.0),
         ProfileDetails(
-          name: 'Nunu Nugraha',
+          name: name,
           id: '123456',
         ),
       ],
