@@ -76,7 +76,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       (failure) {
         String newMessageError = failure.message;
 
-        if (newMessageError == 'Invalid username or password') {
+        if (newMessageError.contains('Invalid username or password') ||
+            newMessageError.contains('Resource Not Found')) {
           newMessageError = 'Username atau password salah';
         } else {
           newMessageError =
@@ -89,8 +90,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           passwordErrorMessage: newMessageError,
         ));
       },
-      (loginData) {
-        emit(state.copyWith(message: 'Success', status: RequestStatus.success));
+      // Handle success case if needed
+      (data) {
+        // Handle success case if needed
       },
     );
   }
