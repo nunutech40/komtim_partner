@@ -111,7 +111,7 @@ class ProfileRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final imageUrl =
-        'https://placehold.jp/${getRandomColor().value.toRadixString(16)}/ffffff/150x150.png?text=${getInitials(name)}';
+        'https://placehold.jp/34A853/ffffff/150x150.png?text=${getInitials(name)}';
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,

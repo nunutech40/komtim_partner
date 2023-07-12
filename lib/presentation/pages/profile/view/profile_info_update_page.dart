@@ -164,17 +164,10 @@ class ProfileRow extends StatelessWidget {
       return name[0];
     }
   }
-
-  Color getRandomColor() {
-    final random = Random();
-    final colorCode = random.nextInt(0xFFFFFF);
-    return Color(colorCode).withOpacity(1.0);
-  }
-
   @override
   Widget build(BuildContext context) {
     final imageUrl =
-        'https://placehold.jp/${getRandomColor().value.toRadixString(16)}/ffffff/150x150.png?text=${getInitials(name)}';
+        'https://placehold.jp/34A853/ffffff/150x150.png?text=${getInitials(name)}';
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
