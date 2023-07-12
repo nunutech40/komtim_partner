@@ -9,7 +9,7 @@ import '../response_parser.dart';
 abstract class AuthRemoteDataSource {
   Future<LoginResponse> doLogin(String username, String password);
   Future<bool> doLogout();
-  Future<bool> sendForgotPassword();
+  Future<bool> sendForgotPassword(String email);
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -47,11 +47,13 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<bool> sendForgotPassword() async {
+  Future<bool> sendForgotPassword(String email) async {
+    String body = json.encode({
+      'email': email,
+    });
+
     final response = await client.requestWithoutToken(
-      method: 'POST',
-      url: Endpoints.forgotPassword,
-    );
+        method: 'POST', url: Endpoints.forgotPassword, body: body);
     return responseParser.parseResponseMeta<bool>(response, (_) => true);
   }
 }

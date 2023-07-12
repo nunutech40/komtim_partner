@@ -7,7 +7,7 @@ class SendForgotPasswordUseCase {
 
   SendForgotPasswordUseCase(this.repository);
 
-  Future<Either<Failure, bool>> execute() {
-    return repository.sendForgotPass();
+  Future<Either<Failure, bool>> execute(String email) {
+    return repository.sendForgotPass(email);
   }
 }

@@ -71,7 +71,7 @@ class ForgotPasswordBloc
 
     emit(state.copyWith(status: RequestStatus.loading));
 
-    final result = await sendForgotPasswordUseCase.execute();
+    final result = await sendForgotPasswordUseCase.execute(state.email);
 
     result.fold(
       (failure) {

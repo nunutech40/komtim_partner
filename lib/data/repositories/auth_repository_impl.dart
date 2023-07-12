@@ -1,17 +1,14 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:dartz/dartz.dart';
 import 'package:komtim_partner/common/failure.dart';
 import 'package:komtim_partner/data/datasources/preferences/shared_pref.dart';
 import 'package:komtim_partner/data/datasources/remote/auth_remote_datasource.dart';
-import 'package:komtim_partner/data/datasources/remote/profile_remote_datasource.dart';
 import 'package:komtim_partner/data/models/login_response.dart';
-import 'package:komtim_partner/data/models/profile_response.dart';
-import 'package:komtim_partner/data/repositories/profile_repository_impl.dart';
 import 'package:komtim_partner/domain/entities/login_model.dart';
 import 'package:komtim_partner/domain/repositories/auth_repository.dart';
-import 'package:komtim_partner/domain/repositories/profile_repository.dart';
 
 import 'base_repository.dart';
 
@@ -56,9 +53,9 @@ class AuthRepositoryImpl extends BaseRepository implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, bool>> sendForgotPass() {
+  Future<Either<Failure, bool>> sendForgotPass(String email) {
     return executeEither(() async {
-      final result = await remoteDataSource.sendForgotPassword();
+      final result = await remoteDataSource.sendForgotPassword(email);
       return result;
     });
   }

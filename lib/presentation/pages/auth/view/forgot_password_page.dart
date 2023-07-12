@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:komtim_partner/common/styles.dart';
 import 'package:komtim_partner/presentation/pages/auth/bloc/forgot_password_bloc.dart';
+import 'package:komtim_partner/presentation/widgets/confirmation_dialog_oke.dart';
 import '../../../../common/enum_status.dart';
 import '../../../router/app_router.dart';
 import '../../../router/router_utils.dart';
@@ -9,30 +10,41 @@ import '../../../widgets/custom_button.dart';
 import '../../../widgets/custom_text_field.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:komtim_partner/common/styles.dart';
-
 class ForgotPasswordPage extends StatelessWidget {
   const ForgotPasswordPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return BlocListener<ForgotPasswordBloc, ForgotPasswordState>(
-      listener: (context, state) {
-        if (state.status == RequestStatus.success) {
-          AppRouter.router.go(PAGES.login.screenPath);
-        } else if (state.status == RequestStatus.failure) {
-          if (!state.emailErrorMessage
-              .contains('Email yang anda masukan salah')) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                  content: Text(state.emailErrorMessage),
-                  backgroundColor: errorColor),
-            );
-            context.read<ForgotPasswordBloc>().add(SendStatusResetEvent());
+  Widget build(BuildContext contexthere) {
+    return Scaffold(
+      body: BlocListener<ForgotPasswordBloc, ForgotPasswordState>(
+        listener: (context, state) {
+          if (state.status == RequestStatus.success) {
+            showConfirmation(contexthere, context.read<ForgotPasswordBloc>());
+          } else if (state.status == RequestStatus.failure) {
+            if (!state.emailErrorMessage
+                .contains('Email yang anda masukan salah')) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                    content: Text(state.emailErrorMessage),
+                    backgroundColor: errorColor),
+              );
+              context.read<ForgotPasswordBloc>().add(SendStatusResetEvent());
+            }
           }
-        }
+        },
+        child: const _ForgotPasswordForm(),
+      ),
+    );
+  }
+
+  static void showConfirmation(
+      BuildContext context, ForgotPasswordBloc mainBloc) {
+    ConfirmationDialogOke.show(
+      context,
+      onYesPressed: () {
+        Navigator.of(context).pop();
+        AppRouter.router.go(PAGES.login.screenPath);
       },
-      child: const _ForgotPasswordForm(),
     );
   }
 }
