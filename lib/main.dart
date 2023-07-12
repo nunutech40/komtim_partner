@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
             title: 'Komtim Partner',
             theme: ThemeData(
               textTheme: GoogleFonts.plusJakartaSansTextTheme(),
-              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+              colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
               useMaterial3: true,
             ),
             routeInformationProvider: AppRouter.router.routeInformationProvider,
