@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../common/styles.dart';
-
-class CustomButton extends StatelessWidget {
+class CustomOutlineButton1Small extends StatelessWidget {
   final String text;
   final VoidCallback? onPressed;
 
-  const CustomButton({
+  const CustomOutlineButton1Small({
     Key? key,
     required this.text,
     this.onPressed,
@@ -14,23 +12,21 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    return OutlinedButton(
       onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: secondaryColor,
-        foregroundColor: Colors.white,
+      style: OutlinedButton.styleFrom(
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.grey, // text color
+        side: const BorderSide(color: Colors.grey, width: 1), // border color
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
         ),
-        elevation: 0,
-        padding: const EdgeInsets.symmetric(
-            vertical: 11.0, horizontal: 24.0), // Add padding here
+        padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 24.0),
       ),
       child: Text(
         text,
         style: const TextStyle(
-          color: Colors.white,
-          fontSize: 14,
+          fontSize: 12,
           fontWeight: FontWeight.bold,
         ),
       ),

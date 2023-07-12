@@ -1,43 +1,44 @@
 import 'package:flutter/material.dart';
 
 import 'package:komtim_partner/common/styles.dart';
+import 'package:komtim_partner/presentation/pages/auth/bloc/forgot_password_bloc.dart';
 import '../../../../common/enum_status.dart';
 import '../../../router/app_router.dart';
 import '../../../router/router_utils.dart';
 import '../../../widgets/custom_button.dart';
 import '../../../widgets/custom_text_field.dart';
-import '../../../widgets/custom_password_field.dart';
-import '../bloc/login_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({Key? key}) : super(key: key);
+import 'package:komtim_partner/common/styles.dart';
+
+class ForgotPasswordPage extends StatelessWidget {
+  const ForgotPasswordPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<LoginBloc, LoginState>(
+    return BlocListener<ForgotPasswordBloc, ForgotPasswordState>(
       listener: (context, state) {
         if (state.status == RequestStatus.success) {
-          AppRouter.router.go(PAGES.main.screenPath);
+          AppRouter.router.go(PAGES.login.screenPath);
         } else if (state.status == RequestStatus.failure) {
-          if (!state.usernameErrorMessage
-              .contains('Username atau password salah')) {
+          if (!state.emailErrorMessage
+              .contains('Email yang anda masukan salah')) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                  content: Text(state.usernameErrorMessage),
+                  content: Text(state.emailErrorMessage),
                   backgroundColor: errorColor),
             );
-            context.read<LoginBloc>().add(LoginStatusResetEvent());
+            context.read<ForgotPasswordBloc>().add(SendStatusResetEvent());
           }
         }
       },
-      child: const _LoginForm(),
+      child: const _ForgotPasswordForm(),
     );
   }
 }
 
-class _LoginForm extends StatelessWidget {
-  const _LoginForm({
+class _ForgotPasswordForm extends StatelessWidget {
+  const _ForgotPasswordForm({
     Key? key,
   }) : super(key: key);
 
@@ -53,11 +54,14 @@ class _LoginForm extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const _LoginHeader(),
-                const SizedBox(height: 32.0),
-                _LoginUsername(),
+                const _ForgotPassHeader(),
                 const SizedBox(height: 24.0),
-                _LoginPassword(),
+                Text(
+                  'Tautan untuk mengatur ulang password akan dikirim melalui email.',
+                  style: AppTypography.regular12,
+                ),
+                const SizedBox(height: 32.0),
+                _inputEmail(),
                 const SizedBox(height: 24.0),
                 const _ForgotPasswordText(),
                 const SizedBox(height: 32.0),
@@ -71,8 +75,8 @@ class _LoginForm extends StatelessWidget {
   }
 }
 
-class _LoginHeader extends StatelessWidget {
-  const _LoginHeader({Key? key}) : super(key: key);
+class _ForgotPassHeader extends StatelessWidget {
+  const _ForgotPassHeader({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -80,12 +84,12 @@ class _LoginHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Login to',
+          'Lupa',
           style: TextStyle(fontSize: 32, fontWeight: FontWeight.w900),
           textAlign: TextAlign.left,
         ),
         Text(
-          'your Account',
+          'Password',
           style: TextStyle(fontSize: 32, fontWeight: FontWeight.w900),
           textAlign: TextAlign.left,
         ),
@@ -94,41 +98,21 @@ class _LoginHeader extends StatelessWidget {
   }
 }
 
-class _LoginUsername extends StatelessWidget {
+class _inputEmail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LoginBloc, LoginState>(
+    return BlocBuilder<ForgotPasswordBloc, ForgotPasswordState>(
       builder: (context, state) {
         return CustomTextField(
-          label: 'Username',
-          hint: 'Masukkan username kamu',
-          errorText: state.usernameErrorMessage.isNotEmpty
-              ? state.usernameErrorMessage
-              : null,
-          onChanged: (value) {
-            context.read<LoginBloc>().add(LoginEmailChangedEvent(email: value));
-          },
-        );
-      },
-    );
-  }
-}
-
-class _LoginPassword extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<LoginBloc, LoginState>(
-      builder: (context, state) {
-        return CustomPasswordField(
-          label: 'Password',
-          hint: 'Password kamu',
-          errorText: state.passwordErrorMessage.isNotEmpty
-              ? state.passwordErrorMessage
+          label: 'Email',
+          hint: 'email@gmail.com',
+          errorText: state.emailErrorMessage.isNotEmpty
+              ? state.emailErrorMessage
               : null,
           onChanged: (value) {
             context
-                .read<LoginBloc>()
-                .add(LoginPasswordChangedEvent(password: value));
+                .read<ForgotPasswordBloc>()
+                .add(ForgotEmailChangedEvent(email: value));
           },
         );
       },
@@ -141,18 +125,29 @@ class _ForgotPasswordText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        AppRouter.router.push(PAGES.forgotPasswrod.screenPath);
-      },
-      child: const Text(
-        'Lupa password?',
-        style: TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.w600,
-          color: primaryColor,
+    return Row(
+      children: [
+        const Text(
+          'Ingat Password?',
+          style: TextStyle(
+            fontSize: 12,
+          ),
         ),
-      ),
+        const SizedBox(width: 2), // Add some spacing between the texts
+        GestureDetector(
+          onTap: () {
+            AppRouter.router.pop();
+          },
+          child: const Text(
+            'Kembali Masuk',
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              color: primaryColor,
+            ),
+          ),
+        )
+      ],
     );
   }
 }
@@ -163,9 +158,11 @@ class _SubmitButton extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: CustomButton(
-        text: 'Login',
+        text: 'Kirim',
         onPressed: () {
-          context.read<LoginBloc>().add(const LoginButtonPressedEvent());
+          context
+              .read<ForgotPasswordBloc>()
+              .add(const SendButtonPressedEvent());
         },
       ),
     );

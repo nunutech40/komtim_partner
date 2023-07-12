@@ -54,4 +54,12 @@ class AuthRepositoryImpl extends BaseRepository implements AuthRepository {
       return result;
     });
   }
+
+  @override
+  Future<Either<Failure, bool>> sendForgotPass() {
+    return executeEither(() async {
+      final result = await remoteDataSource.sendForgotPassword();
+      return result;
+    });
+  }
 }

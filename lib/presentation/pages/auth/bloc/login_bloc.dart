@@ -68,7 +68,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     LoginButtonPressedEvent event,
     Emitter<LoginState> emit,
   ) async {
-    // Check if username or password is empty
     if (state.username.isEmpty || state.password.isEmpty) {
       emit(state.copyWith(
         status: RequestStatus.failure,

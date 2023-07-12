@@ -1,6 +1,7 @@
 enum PAGES {
   splash,
   login,
+  forgotPasswrod,
   main,
   error,
   profileInfo,
@@ -15,6 +16,8 @@ extension AppPageExtension on PAGES {
         return "/splash";
       case PAGES.login:
         return "/login";
+      case PAGES.forgotPasswrod:
+        return "/forgot_password";
       case PAGES.error:
         return "/error";
       case PAGES.profileInfo:
@@ -30,6 +33,8 @@ extension AppPageExtension on PAGES {
         return "HOME";
       case PAGES.login:
         return "LOGIN";
+      case PAGES.forgotPasswrod:
+        return "FORGOTPASSWORD";
       case PAGES.splash:
         return "SPLASH";
       case PAGES.error:
@@ -47,6 +52,8 @@ extension AppPageExtension on PAGES {
         return "Home";
       case PAGES.login:
         return "Login";
+      case PAGES.forgotPasswrod:
+        return "Forgot Password";
       case PAGES.splash:
         return "Splash";
       case PAGES.profileInfo:

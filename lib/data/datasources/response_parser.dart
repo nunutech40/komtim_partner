@@ -20,6 +20,9 @@ class ResponseParser {
         } else {
           throw Exception('Request failed: ${metaresponse.message}');
         }
+      case 204:
+        var metaresponse = MetaResponse.fromJson(parsedJson['meta']);
+        throw UnauthorizedException(metaresponse.message ?? 'Not Found');
       case 401:
         var metaresponse = MetaResponse.fromJson(parsedJson['meta']);
         throw UnauthorizedException(metaresponse.message ?? 'Unauthorized');

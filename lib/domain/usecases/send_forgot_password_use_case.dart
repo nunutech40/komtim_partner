@@ -2,12 +2,12 @@ import 'package:komtim_partner/domain/repositories/auth_repository.dart';
 import 'package:dartz/dartz.dart';
 import '../../common/failure.dart';
 
-class GetAuthStateUseCase {
-  final AuthRepository _repository;
+class SendForgotPasswordUseCase {
+  final AuthRepository repository;
 
-  const GetAuthStateUseCase(this._repository);
+  SendForgotPasswordUseCase(this.repository);
 
   Future<Either<Failure, bool>> execute() {
-    return _repository.getAuthState();
+    return repository.sendForgotPass();
   }
 }

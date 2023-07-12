@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:komtim_partner/presentation/widgets/custom_button_small.dart';
+import 'package:komtim_partner/presentation/widgets/custom_outline_button_1_small.dart';
 
 import 'custom_button.dart';
-import 'custom_outline_button_1.dart';
 
 class ConfirmationDialog extends StatelessWidget {
   final void Function()? onYesPressed;
@@ -57,7 +58,7 @@ class ConfirmationDialog extends StatelessWidget {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.only(right: 4.0),
-                      child: CustomOutlineButton1(
+                      child: CustomOutlineButton1Small(
                         text: 'Tidak',
                         onPressed:
                             onNoPressed ?? () => Navigator.of(context).pop(),
@@ -67,7 +68,7 @@ class ConfirmationDialog extends StatelessWidget {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.only(left: 4.0),
-                      child: CustomButton(
+                      child: CustomButtonSmall(
                         text: 'Iya',
                         onPressed:
                             onYesPressed ?? () => Navigator.of(context).pop(),

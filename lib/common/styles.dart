@@ -17,6 +17,11 @@ class AppTypography {
     fontWeight: FontWeight.w600, // FontWeight.w600 corresponds to semiBold
   );
 
+  static final TextStyle semiBold12 = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w600,
+  );
+
   static final TextStyle medium14 = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w500, // FontWeight.w500 corresponds to medium

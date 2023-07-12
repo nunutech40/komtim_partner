@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:dartz/dartz.dart';
 import 'package:komtim_partner/domain/entities/profile_model.dart';
 import 'package:komtim_partner/domain/repositories/profile_repository.dart';

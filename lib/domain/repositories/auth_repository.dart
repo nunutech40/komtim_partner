@@ -6,4 +6,5 @@ abstract class AuthRepository {
   Future<Either<Failure, LoginModel>> doLogin(String username, String password);
   Future<Either<Failure, bool>> getAuthState();
   Future<Either<Failure, bool>> doLogout();
+  Future<Either<Failure, bool>> sendForgotPass();
 }

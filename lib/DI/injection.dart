@@ -10,6 +10,8 @@ import 'package:komtim_partner/domain/usecases/do_login_use_case.dart';
 import 'package:komtim_partner/domain/usecases/do_logout_use_case.dart';
 import 'package:komtim_partner/domain/usecases/get_auth_state_use_case.dart';
 import 'package:komtim_partner/domain/usecases/get_profile_use_case.dart';
+import 'package:komtim_partner/domain/usecases/send_forgot_password_use_case.dart';
+import 'package:komtim_partner/presentation/pages/auth/bloc/forgot_password_bloc.dart';
 import 'package:komtim_partner/presentation/pages/auth/bloc/login_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:komtim_partner/presentation/pages/home/bloc/main_bloc.dart';
@@ -27,12 +29,15 @@ Future<void> initDependencies() async {
   locator.registerFactory(
       () => MainBloc(doLogoutUseCase: locator(), getProfileUseCase: locator()));
   locator.registerFactory(() => ProfileBloc(getProfileUseCase: locator()));
+  locator.registerFactory(
+      () => ForgotPasswordBloc(sendForgotPasswordUseCase: locator()));
 
   // inject usecase
   locator.registerLazySingleton(() => DoLoginUseCase(locator(), locator()));
   locator.registerLazySingleton(() => GetAuthStateUseCase(locator()));
   locator.registerLazySingleton(() => DoLogoutUseCase(locator()));
   locator.registerLazySingleton(() => GetProfileUseCase(locator()));
+  locator.registerLazySingleton(() => SendForgotPasswordUseCase(locator()));
 
   // inject repository
   locator.registerLazySingleton<AuthRepository>(() =>
@@ -43,7 +48,6 @@ Future<void> initDependencies() async {
   // inject datasource
   locator.registerLazySingleton<AuthRemoteDataSource>(() =>
       AuthRemoteDataSourceImpl(client: locator(), responseParser: locator()));
-
   locator.registerLazySingleton<ProfileRemoteDataSource>(() =>
       ProfileRemoteDataSourceImpl(
           client: locator(), responseParser: locator()));
