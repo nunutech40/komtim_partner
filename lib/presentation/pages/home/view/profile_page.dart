@@ -41,6 +41,7 @@ class ProfilePage extends StatelessWidget {
               },
               builder: (context, state) {
                 return ProfileRow(
+                    imageUrlNetwork: state.profileData?.photoProfileUrl,
                     name: state.profileData?.fullname ??
                         'Nunu Nugraha', // replace with your actual data
                     id: state.profileData?.id.toString());
@@ -88,8 +89,11 @@ class ProfilePage extends StatelessWidget {
 class ProfileRow extends StatelessWidget {
   final String name;
   final String? id;
+  final String? imageUrlNetwork;
 
-  const ProfileRow({Key? key, required this.name, this.id}) : super(key: key);
+  ProfileRow(
+      {Key? key, required this.name, this.id, required this.imageUrlNetwork})
+      : super(key: key);
 
   String getInitials(String name) {
     final names = name.split(" ");
@@ -110,14 +114,15 @@ class ProfileRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final imageUrl =
+    final backgroundImage =
         'https://placehold.jp/34A853/ffffff/150x150.png?text=${getInitials(name)}';
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         ProfileAvatar(
-          imageUrl: imageUrl,
+          backgroundImage: backgroundImage,
+          foregroundImage: imageUrlNetwork,
         ),
         const SizedBox(width: 10),
         ProfileDetails(
@@ -130,9 +135,12 @@ class ProfileRow extends StatelessWidget {
 }
 
 class ProfileAvatar extends StatelessWidget {
-  final String imageUrl;
+  final String backgroundImage;
+  final String? foregroundImage;
 
-  const ProfileAvatar({Key? key, required this.imageUrl}) : super(key: key);
+  const ProfileAvatar(
+      {Key? key, required this.backgroundImage, required this.foregroundImage})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -140,7 +148,8 @@ class ProfileAvatar extends StatelessWidget {
       width: 60.0, // Set the desired width
       height: 60.0, // Set the desired height
       child: CircleAvatar(
-        backgroundImage: NetworkImage(imageUrl),
+        backgroundImage: NetworkImage(backgroundImage),
+        foregroundImage: NetworkImage(foregroundImage ?? ''),
       ),
     );
   }

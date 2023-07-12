@@ -16,6 +16,7 @@ class ProfileResponse extends Equatable {
   final String? bankAccountNumber;
   final String? createdAt;
   final String? updatedAt;
+  final String? photoProfileUrl;
 
   const ProfileResponse(
       {required this.id,
@@ -29,6 +30,7 @@ class ProfileResponse extends Equatable {
       required this.joinDate,
       required this.bankName,
       required this.bankAccountNumber,
+      required this.photoProfileUrl,
       required this.createdAt,
       required this.updatedAt});
 
@@ -44,6 +46,7 @@ class ProfileResponse extends Equatable {
         "join_date": joinDate,
         "bank_name": bankName,
         "bank_account_number": bankAccountNumber,
+        "photo_profile_url": photoProfileUrl,
         "created_at": createdAt,
         "updated_at": updatedAt,
       };
@@ -61,6 +64,7 @@ class ProfileResponse extends Equatable {
       joinDate: json['join_date'],
       bankName: json['bank_name'],
       bankAccountNumber: json['bank_account_number'],
+      photoProfileUrl: json['photo_profile_url'],
       createdAt: json['created_at'],
       updatedAt: json['updated_at'],
     );
@@ -79,6 +83,7 @@ class ProfileResponse extends Equatable {
       joinDate: joinDate,
       bankName: bankName,
       bankAccountNumber: bankAccountNumber,
+      photoProfileUrl: photoProfileUrl,
       createdAt: createdAt,
       updatedAt: updatedAt,
     );
@@ -97,6 +102,7 @@ class ProfileResponse extends Equatable {
         joinDate,
         bankName,
         bankAccountNumber,
+        photoProfileUrl,
         createdAt,
         updatedAt,
       ];

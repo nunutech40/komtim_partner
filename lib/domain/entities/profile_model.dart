@@ -1,34 +1,36 @@
 import 'package:equatable/equatable.dart';
 
 class ProfileModel extends Equatable {
-  final int? id;
-  final int partnerId;
-  final String? partnerNo;
-  final String? fullname;
-  final String? username;
-  final String? email;
-  final String? noTelp;
-  final String? address;
-  final String? joinDate;
-  final String? bankName;
-  final String? bankAccountNumber;
-  final String? createdAt;
-  final String? updatedAt;
+  int? id;
+  int partnerId;
+  String? partnerNo;
+  String? fullname;
+  String? username;
+  String? email;
+  String? noTelp;
+  String? address;
+  String? joinDate;
+  String? bankName;
+  String? bankAccountNumber;
+  String? photoProfileUrl;
+  String? createdAt;
+  String? updatedAt;
 
-  const ProfileModel({
-    required this.id,
+  ProfileModel({
+    this.id,
     required this.partnerId,
-    required this.partnerNo,
-    required this.fullname,
-    required this.username,
-    required this.email,
-    required this.noTelp,
-    required this.address,
-    required this.joinDate,
-    required this.bankName,
-    required this.bankAccountNumber,
-    required this.createdAt,
-    required this.updatedAt,
+    this.partnerNo,
+    this.fullname,
+    this.username,
+    this.email,
+    this.noTelp,
+    this.address,
+    this.joinDate,
+    this.bankName,
+    this.bankAccountNumber,
+    this.photoProfileUrl,
+    this.createdAt,
+    this.updatedAt,
   });
 
   @override
@@ -44,6 +46,7 @@ class ProfileModel extends Equatable {
         joinDate,
         bankName,
         bankAccountNumber,
+        photoProfileUrl,
         createdAt,
         updatedAt,
       ];
