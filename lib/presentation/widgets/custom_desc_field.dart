@@ -8,15 +8,17 @@ class CustomDescriptionField extends StatefulWidget {
   final ValueChanged<String>? onChanged;
   final String? errorText;
   final String textValue;
+  final bool isEnable;
 
-  const CustomDescriptionField({
-    Key? key,
-    required this.label,
-    required this.hint,
-    this.onChanged,
-    this.errorText,
-    this.textValue = '',
-  }) : super(key: key);
+  const CustomDescriptionField(
+      {Key? key,
+      required this.label,
+      required this.hint,
+      this.onChanged,
+      this.errorText,
+      this.textValue = '',
+      this.isEnable = true})
+      : super(key: key);
 
   @override
   _CustomDescriptionFieldState createState() => _CustomDescriptionFieldState();
@@ -54,6 +56,7 @@ class _CustomDescriptionFieldState extends State<CustomDescriptionField> {
 
     return SingleChildScrollView(
       child: TextField(
+        enabled: widget.isEnable,
         controller: _textEditingController,
         focusNode: _focusNode,
         onChanged: widget.onChanged,

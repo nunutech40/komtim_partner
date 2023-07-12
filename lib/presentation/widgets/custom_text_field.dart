@@ -9,16 +9,18 @@ class CustomTextField extends StatefulWidget {
   final String? errorText;
   final bool onlyNumbers;
   final String textValue;
+  final bool isEnable;
 
-  const CustomTextField({
-    Key? key,
-    required this.label,
-    required this.hint,
-    this.onChanged,
-    this.errorText,
-    this.onlyNumbers = false,
-    this.textValue = '',
-  }) : super(key: key);
+  const CustomTextField(
+      {Key? key,
+      required this.label,
+      required this.hint,
+      this.onChanged,
+      this.errorText,
+      this.onlyNumbers = false,
+      this.textValue = '',
+      this.isEnable = true})
+      : super(key: key);
 
   @override
   _CustomTextFieldState createState() => _CustomTextFieldState();
@@ -62,6 +64,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
     }
 
     return TextField(
+      enabled: widget.isEnable,
       controller: _textEditingController,
       focusNode: _focusNode,
       onChanged: (value) {

@@ -64,6 +64,7 @@ class _ProfileInfoUpdatePageState extends State<ProfileInfoUpdatePage> {
                     ),
                     const SizedBox(height: 34.0),
                     CustomTextField(
+                      isEnable: false,
                       label: 'No. Telepon',
                       hint: '087****8',
                       onChanged: null,
@@ -72,6 +73,7 @@ class _ProfileInfoUpdatePageState extends State<ProfileInfoUpdatePage> {
                     ),
                     const SizedBox(height: 24.0),
                     CustomTextField(
+                      isEnable: false,
                       label: 'Username',
                       hint: 'kikoviano',
                       onChanged: null,
@@ -79,6 +81,7 @@ class _ProfileInfoUpdatePageState extends State<ProfileInfoUpdatePage> {
                     ),
                     const SizedBox(height: 24.0),
                     CustomTextField(
+                      isEnable: false,
                       label: 'Email',
                       hint: 'gerardus@gmail.com',
                       onChanged: null,
@@ -86,6 +89,7 @@ class _ProfileInfoUpdatePageState extends State<ProfileInfoUpdatePage> {
                     ),
                     const SizedBox(height: 24.0),
                     CustomDescriptionField(
+                      isEnable: false,
                       label: 'Alamat',
                       hint: 'Jln, Somba No. 5 Salatiga, Jawa Tengah',
                       onChanged: null,
@@ -93,6 +97,7 @@ class _ProfileInfoUpdatePageState extends State<ProfileInfoUpdatePage> {
                     ),
                     const SizedBox(height: 24.0),
                     CustomTextField(
+                      isEnable: false,
                       label: 'Tanggal Bergabung',
                       hint: '01 Januari 2020',
                       onChanged: null,
@@ -100,6 +105,7 @@ class _ProfileInfoUpdatePageState extends State<ProfileInfoUpdatePage> {
                     ),
                     const SizedBox(height: 24.0),
                     CustomTextField(
+                      isEnable: false,
                       label: 'Nama Bank',
                       hint: 'BRI',
                       onChanged: null,
@@ -107,15 +113,14 @@ class _ProfileInfoUpdatePageState extends State<ProfileInfoUpdatePage> {
                     ),
                     const SizedBox(height: 24.0),
                     CustomTextField(
+                      isEnable: false,
                       label: 'Nomor Rekening',
                       hint: '2138393936753',
                       onChanged: null,
                       onlyNumbers: true,
                       textValue: state.profileData?.bankAccountNumber ?? '',
                     ),
-                    const SizedBox(height: 32.0),
-                    _SubmitButton(),
-                    const SizedBox(height: 32.0),
+                    const SizedBox(height: 32.0)
                   ],
                 ),
               ),
