@@ -6,6 +6,7 @@ import 'package:komtim_partner/data/repositories/auth_repository_impl.dart';
 import 'package:komtim_partner/data/repositories/profile_repository_impl.dart';
 import 'package:komtim_partner/domain/repositories/auth_repository.dart';
 import 'package:komtim_partner/domain/repositories/profile_repository.dart';
+import 'package:komtim_partner/domain/usecases/change_password_use_case.dart';
 import 'package:komtim_partner/domain/usecases/do_login_use_case.dart';
 import 'package:komtim_partner/domain/usecases/do_logout_use_case.dart';
 import 'package:komtim_partner/domain/usecases/get_auth_state_use_case.dart';
@@ -31,6 +32,8 @@ Future<void> initDependencies() async {
   locator.registerFactory(() => ProfileBloc(getProfileUseCase: locator()));
   locator.registerFactory(
       () => ForgotPasswordBloc(sendForgotPasswordUseCase: locator()));
+  locator.registerFactory(
+      () => ForgotPasswordBloc(sendForgotPasswordUseCase: locator()));
 
   // inject usecase
   locator.registerLazySingleton(() => DoLoginUseCase(locator(), locator()));
@@ -38,6 +41,7 @@ Future<void> initDependencies() async {
   locator.registerLazySingleton(() => DoLogoutUseCase(locator()));
   locator.registerLazySingleton(() => GetProfileUseCase(locator()));
   locator.registerLazySingleton(() => SendForgotPasswordUseCase(locator()));
+  locator.registerLazySingleton(() => ChangePasswordUseCase(locator()));
 
   // inject repository
   locator.registerLazySingleton<AuthRepository>(() =>
