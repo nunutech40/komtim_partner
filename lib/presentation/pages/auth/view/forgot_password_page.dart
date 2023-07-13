@@ -21,8 +21,7 @@ class ForgotPasswordPage extends StatelessWidget {
           if (state.status == RequestStatus.success) {
             showConfirmation(contexthere, context.read<ForgotPasswordBloc>());
           } else if (state.status == RequestStatus.failure) {
-            if (!state.emailErrorMessage
-                .contains('Email yang anda masukan salah')) {
+            if (!state.emailErrorMessage.contains('Email tidak ditemukan.')) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                     content: Text(state.emailErrorMessage),

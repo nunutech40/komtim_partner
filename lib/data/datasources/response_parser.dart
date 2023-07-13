@@ -44,7 +44,6 @@ class ResponseParser {
     T Function(bool metaResponse) successHandler,
   ) async {
     final parsedJson = json.decode(response.body);
-
     switch (response.statusCode) {
       case 200:
         var metaresponse = MetaResponse.fromJson(parsedJson['meta']);
@@ -53,12 +52,17 @@ class ResponseParser {
         } else {
           throw Exception('Request failed: ${metaresponse.message}');
         }
+      case 204:
+        var metaresponse = MetaResponse.fromJson(parsedJson['meta']);
+        throw UnauthorizedException(metaresponse.message ?? 'Not Found');
       case 401:
-        throw UnauthorizedException('Unauthorized');
+        var metaresponse = MetaResponse.fromJson(parsedJson['meta']);
+        throw UnauthorizedException(metaresponse.message ?? 'Unauthorized');
       case 404:
-        throw UnauthorizedException('Not found');
+        var metaresponse = MetaResponse.fromJson(parsedJson['meta']);
+        throw UnauthorizedException(metaresponse.message ?? 'Unauthorized');
       case 422:
-        final messageError = parsedJson['errors'][0].toString();
+        final messageError = parsedJson['data']['errors'][0].toString();
         throw UnauthorizedException(messageError);
       case 500:
         throw ServerException('Server Error');

@@ -78,7 +78,7 @@ class ForgotPasswordBloc
         String newMessageError = failure.message;
 
         if (newMessageError.contains('Email Not Found')) {
-          newMessageError = 'Email yang anda masukan salah';
+          newMessageError = 'Email tidak ditemukan.';
         } else {
           newMessageError =
               newMessageError.replaceFirst('Unexpected Error: ', '');
