@@ -10,6 +10,8 @@ abstract class AuthRemoteDataSource {
   Future<LoginResponse> doLogin(String username, String password);
   Future<bool> doLogout();
   Future<bool> sendForgotPassword(String email);
+  Future<bool> changePassword(
+      String oldPass, String newPass, String confirmPass);
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -54,6 +56,22 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
     final response = await client.requestWithoutToken(
         method: 'POST', url: Endpoints.forgotPassword, body: body);
+
+    return responseParser.parseResponseMeta<bool>(response, (_) => true);
+  }
+
+  @override
+  Future<bool> changePassword(
+      String oldPass, String newPass, String confirmPass) async {
+    String body = json.encode({
+      'old_password': oldPass,
+      'new_password': newPass,
+      'confirm_password': confirmPass
+    });
+
+    final response = await client.requestWithToken(
+        method: 'PUT', url: Endpoints.changePassword, body: body);
+
     return responseParser.parseResponseMeta<bool>(response, (_) => true);
   }
 }

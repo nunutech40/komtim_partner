@@ -59,4 +59,14 @@ class AuthRepositoryImpl extends BaseRepository implements AuthRepository {
       return result;
     });
   }
+
+  @override
+  Future<Either<Failure, bool>> changePassword(
+      String oldPass, String newPass, String confirmPass) {
+    return executeEither(() async {
+      final result =
+          await remoteDataSource.changePassword(oldPass, newPass, confirmPass);
+      return result;
+    });
+  }
 }

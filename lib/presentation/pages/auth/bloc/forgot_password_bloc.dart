@@ -14,6 +14,7 @@ class ForgotPasswordBloc
 
   ForgotPasswordBloc({required this.sendForgotPasswordUseCase})
       : super(const ForgotPasswordState()) {
+        
     on<SendButtonPressedEvent>(_handleSendForgotPassword);
     on<SendStatusResetEvent>(_handleStatusResetEvent);
     on<ForgotEmailChangedEvent>(_handleEmailNameChangeEvent);
