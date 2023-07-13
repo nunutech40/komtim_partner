@@ -11,4 +11,6 @@ class Endpoints {
 
   // Profile Endpoints
   static const String getProfile = '$_BaseURL/api/v1/auth/profile';
+
+  
 }

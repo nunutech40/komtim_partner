@@ -1,7 +1,7 @@
-import '../../../common/constat_endpoint.dart';
+import '../../apiservice/constat_endpoint.dart';
 import '../../models/profile_response.dart';
-import '../http_service.dart';
-import '../response_parser.dart';
+import '../../apiservice/http_service.dart';
+import '../../apiservice/response_parser.dart';
 
 abstract class ProfileRemoteDataSource {
   Future<ProfileResponse> getProfile();

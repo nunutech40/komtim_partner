@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:komtim_partner/data/models/login_response.dart';
 
-import '../../../common/constat_endpoint.dart';
-import '../http_service.dart';
-import '../response_parser.dart';
+import '../../apiservice/constat_endpoint.dart';
+import '../../apiservice/http_service.dart';
+import '../../apiservice/response_parser.dart';
 
 abstract class AuthRemoteDataSource {
   Future<LoginResponse> doLogin(String username, String password);

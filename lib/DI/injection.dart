@@ -18,8 +18,8 @@ import 'package:komtim_partner/presentation/pages/home/bloc/main_bloc.dart';
 import 'package:komtim_partner/presentation/pages/profile/bloc/profile_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../data/datasources/http_service.dart';
-import '../data/datasources/response_parser.dart';
+import '../data/apiservice/http_service.dart';
+import '../data/apiservice/response_parser.dart';
 
 final locator = GetIt.instance;
 
