@@ -6,9 +6,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:komtim_partner/presentation/router/app_router.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:komtim_partner/DI/injection.dart' as di;
+import 'package:komtim_partner/di/injection.dart' as di;
 
-import 'DI/injection.dart';
+import 'di/injection.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

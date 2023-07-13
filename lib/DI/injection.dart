@@ -12,6 +12,7 @@ import 'package:komtim_partner/domain/usecases/do_logout_use_case.dart';
 import 'package:komtim_partner/domain/usecases/get_auth_state_use_case.dart';
 import 'package:komtim_partner/domain/usecases/get_profile_use_case.dart';
 import 'package:komtim_partner/domain/usecases/send_forgot_password_use_case.dart';
+import 'package:komtim_partner/presentation/pages/auth/bloc/change_password_bloc.dart';
 import 'package:komtim_partner/presentation/pages/auth/bloc/forgot_password_bloc.dart';
 import 'package:komtim_partner/presentation/pages/auth/bloc/login_bloc.dart';
 import 'package:http/http.dart' as http;
@@ -33,7 +34,7 @@ Future<void> initDependencies() async {
   locator.registerFactory(
       () => ForgotPasswordBloc(sendForgotPasswordUseCase: locator()));
   locator.registerFactory(
-      () => ForgotPasswordBloc(sendForgotPasswordUseCase: locator()));
+      () => ChangePasswordBloc(changePasswordUseCase: locator()));
 
   // inject usecase
   locator.registerLazySingleton(() => DoLoginUseCase(locator(), locator()));

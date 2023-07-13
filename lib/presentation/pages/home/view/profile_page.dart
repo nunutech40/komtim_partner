@@ -62,7 +62,9 @@ class ProfilePage extends StatelessWidget {
               title: 'Ubah Password',
               leadingIcon: Image.asset('assets/images/ic-security-safe.png'),
               trailingIcon: Image.asset('assets/images/ic-arrow-right.png'),
-              onTap: () {},
+              onTap: () {
+                AppRouter.router.push(PAGES.changePassword.screenPath);
+              },
             ),
             const SizedBox(
               height: 24.0,

@@ -15,90 +15,90 @@ class ChangePasswordBloc
   ChangePasswordBloc({required this.changePasswordUseCase})
       : super(const ChangePasswordState()) {
     on<ChangePassButtonPressedEvent>(_handleChangePasswordSubmit);
-    on<SendStatusResetEvent>(_handleStatusResetEvent);
+    on<StatusResetEvent>(_handleStatusResetEvent);
     on<ChangeNewPasswordChangedEvent>(_handleNewPassChangeEvent);
     on<ChangeOldPasswordChangedEvent>(_handleOldPassChangeEvent);
     on<ChangeConfirmPasswordChangedEvent>(_handleConfirmPassChangeEvent);
   }
-
   Future<void> _handleNewPassChangeEvent(
     ChangeNewPasswordChangedEvent event,
     Emitter<ChangePasswordState> emit,
   ) async {
+    var newState = state.copyWith(newPassword: event.newPass);
+
     if (event.newPass.length < 8) {
-      emit(state.copyWith(
-        newPassword: event.newPass,
+      newState = newState.copyWith(
         newPassErrorMessage: 'Password minimal 8 karakter',
-      ));
-      return;
-    }
-
-    // Verify that the password doesn't contain any whitespace
-    if (event.newPass.contains(' ')) {
-      emit(state.copyWith(
-        newPassword: event.newPass,
+      );
+    } else if (event.newPass.contains(' ')) {
+      newState = newState.copyWith(
         newPassErrorMessage: 'Password tidak dapat menggunakan spasi',
-      ));
-      return;
+      );
+    } else {
+      newState = newState.copyWith(
+        newPassErrorMessage: '',
+      );
     }
 
-    emit(state.copyWith(newPassword: event.newPass, newPassErrorMessage: ''));
+    emit(newState);
   }
 
   Future<void> _handleOldPassChangeEvent(
     ChangeOldPasswordChangedEvent event,
     Emitter<ChangePasswordState> emit,
   ) async {
+    var newState = state.copyWith(oldPassword: event.oldPass);
+
     if (event.oldPass.length < 8) {
-      emit(state.copyWith(
-        oldPassword: event.oldPass,
+      newState = newState.copyWith(
         oldPassErrorMessage: 'Password minimal 8 karakter',
-      ));
-      return;
-    }
-    if (event.oldPass.contains(' ')) {
-      emit(state.copyWith(
-        oldPassword: event.oldPass,
+      );
+    } else if (event.oldPass.contains(' ')) {
+      newState = newState.copyWith(
         oldPassErrorMessage: 'Password tidak dapat menggunakan spasi',
-      ));
-      return;
+      );
+    } else {
+      newState = newState.copyWith(
+        oldPassErrorMessage: '',
+      );
     }
-    emit(state.copyWith(oldPassword: event.oldPass, oldPassErrorMessage: ''));
+
+    emit(newState);
   }
 
   Future<void> _handleConfirmPassChangeEvent(
     ChangeConfirmPasswordChangedEvent event,
     Emitter<ChangePasswordState> emit,
   ) async {
+    var newState = state.copyWith(confirmPassword: event.confirmPass);
+
     if (event.confirmPass.length < 8) {
-      emit(state.copyWith(
-        confirmPassword: event.confirmPass,
+      newState = newState.copyWith(
         confirmPassErrorMessage: 'Password minimal 8 karakter',
-      ));
-      return;
-    }
-
-    if (event.confirmPass.contains(' ')) {
-      emit(state.copyWith(
-        confirmPassword: event.confirmPass,
+      );
+    } else if (event.confirmPass.contains(' ')) {
+      newState = newState.copyWith(
         confirmPassErrorMessage: 'Password tidak dapat menggunakan spasi',
-      ));
-      return;
+      );
+    } else {
+      newState = newState.copyWith(
+        confirmPassErrorMessage: '',
+      );
     }
 
-    emit(state.copyWith(
-        confirmPassword: event.confirmPass, confirmPassErrorMessage: ''));
+    emit(newState);
   }
 
   Future<void> _handleStatusResetEvent(
-    SendStatusResetEvent event,
+    StatusResetEvent event,
     Emitter<ChangePasswordState> emit,
   ) async {
     emit(state.copyWith(
-        status: RequestStatus.empty,
-        newPassErrorMessage: '',
-        oldPassErrorMessage: '',
-        confirmPassErrorMessage: ''));
+      status: RequestStatus.empty,
+      newPassErrorMessage: '',
+      oldPassErrorMessage: '',
+      confirmPassErrorMessage: '',
+    ));
   }
 
   Future<void> _handleChangePasswordSubmit(
@@ -109,16 +109,19 @@ class ChangePasswordBloc
     final oldPass = state.oldPassword;
     final confirmPass = state.confirmPassword;
 
+    print('cek data oldpas: $oldPass');
+    print('cek data newpas: $newPass');
+    print('cek data confirmpas: $confirmPass');
+
     if (newPass.isEmpty || oldPass.isEmpty || confirmPass.isEmpty) {
       emit(state.copyWith(
         status: RequestStatus.failure,
         newPassErrorMessage:
-            newPass.isEmpty ? 'Password baru tidak boleh kosong ' : '',
+            newPass.isEmpty ? 'Password baru tidak boleh kosong' : '',
         oldPassErrorMessage:
             oldPass.isEmpty ? 'Password lama tidak boleh kosong' : '',
-        confirmPassErrorMessage: confirmPass.isEmpty
-            ? 'Confirmation password baru tidak boleh kosong'
-            : '',
+        confirmPassErrorMessage:
+            confirmPass.isEmpty ? 'Konfirmasi password tidak boleh kosong' : '',
       ));
       return;
     }
@@ -130,10 +133,28 @@ class ChangePasswordBloc
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          status: RequestStatus.empty,
-          newPassErrorMessage: failure.message,
-        ));
+        String newMessageError = failure.message;
+
+        if (newMessageError == 'Invalid Old Password') {
+          newMessageError = 'Salah memasukan password lama kamu.';
+          emit(state.copyWith(
+            status: RequestStatus.empty,
+            oldPassErrorMessage: newMessageError,
+          ));
+        } else if (newMessageError == 'Confirmation Password did not match') {
+          newMessageError = 'Konfirmasi password yang kamu masukan salah.';
+          emit(state.copyWith(
+            status: RequestStatus.empty,
+            confirmPassErrorMessage: newMessageError,
+          ));
+        } else {
+          newMessageError =
+              newMessageError.replaceFirst('Unexpected Error: ', '');
+          emit(state.copyWith(
+            status: RequestStatus.empty,
+            newPassErrorMessage: newMessageError,
+          ));
+        }
       },
       (forgotPassword) {
         emit(state.copyWith(

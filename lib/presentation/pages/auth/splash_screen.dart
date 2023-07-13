@@ -3,7 +3,7 @@ import 'package:komtim_partner/presentation/router/app_router.dart';
 
 import '../../../data/datasources/preferences/shared_pref.dart';
 
-import 'package:komtim_partner/DI/injection.dart' as di;
+import 'package:komtim_partner/di/injection.dart' as di;
 
 import '../../router/router_utils.dart';
 

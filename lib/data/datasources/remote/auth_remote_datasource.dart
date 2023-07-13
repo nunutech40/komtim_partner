@@ -63,6 +63,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<bool> changePassword(
       String oldPass, String newPass, String confirmPass) async {
+    print('cek data oldpas: $oldPass');
+    print('cek data oldpas: $newPass');
+    print('cek data oldpas: $confirmPass');
     String body = json.encode({
       'old_password': oldPass,
       'new_password': newPass,

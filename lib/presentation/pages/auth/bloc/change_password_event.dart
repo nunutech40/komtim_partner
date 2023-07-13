@@ -11,7 +11,7 @@ class ChangePassButtonPressedEvent extends ChangePasswordEvent {
   const ChangePassButtonPressedEvent();
 }
 
-class SendStatusResetEvent extends ChangePasswordEvent {}
+class StatusResetEvent extends ChangePasswordEvent {}
 
 class ChangeNewPasswordChangedEvent extends ChangePasswordEvent {
   const ChangeNewPasswordChangedEvent({required this.newPass});

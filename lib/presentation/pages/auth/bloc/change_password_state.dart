@@ -31,15 +31,16 @@ class ChangePasswordState extends Equatable {
     String? confirmPassErrorMessage,
   }) {
     return ChangePasswordState(
-        status: status ?? this.status,
-        message: message ?? this.message,
-        newPassword: newPassword ?? '',
-        oldPassword: oldPassword ?? '',
-        confirmPassword: confirmPassword ?? '',
-        newPassErrorMessage: newPassErrorMessage ?? this.newPassErrorMessage,
-        oldPassErrorMessage: oldPassErrorMessage ?? this.oldPassErrorMessage,
-        confirmPassErrorMessage:
-            oldPassErrorMessage ?? this.confirmPassErrorMessage);
+      status: status ?? this.status,
+      message: message ?? this.message,
+      newPassword: newPassword ?? this.newPassword,
+      oldPassword: oldPassword ?? this.oldPassword,
+      confirmPassword: confirmPassword ?? this.confirmPassword,
+      newPassErrorMessage: newPassErrorMessage ?? this.newPassErrorMessage,
+      oldPassErrorMessage: oldPassErrorMessage ?? this.oldPassErrorMessage,
+      confirmPassErrorMessage:
+          confirmPassErrorMessage ?? this.confirmPassErrorMessage,
+    );
   }
 
   @override
@@ -51,6 +52,6 @@ class ChangePasswordState extends Equatable {
         confirmPassword,
         newPassErrorMessage,
         oldPassErrorMessage,
-        confirmPassErrorMessage
+        confirmPassErrorMessage,
       ];
 }
