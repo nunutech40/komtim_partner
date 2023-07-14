@@ -7,12 +7,14 @@ import 'custom_button.dart';
 class ConfirmationDialog extends StatelessWidget {
   final void Function()? onYesPressed;
   final void Function()? onNoPressed;
+  final String? textConfirmation;
 
-  const ConfirmationDialog({
-    Key? key,
-    this.onYesPressed,
-    this.onNoPressed,
-  }) : super(key: key);
+  const ConfirmationDialog(
+      {Key? key,
+      this.onYesPressed,
+      this.onNoPressed,
+      this.textConfirmation = ''})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -44,11 +46,12 @@ class ConfirmationDialog extends StatelessWidget {
                   ),
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.all(16.0),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
                 child: Text(
-                  'Anda yakin ingin keluar dari akun anda?', // Replace with your text
-                  style: TextStyle(fontSize: 16.0),
+                  textConfirmation ??
+                      'Anda yakin ingin keluar dari akun anda?', // Replace with your text
+                  style: const TextStyle(fontSize: 16.0),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -85,13 +88,16 @@ class ConfirmationDialog extends StatelessWidget {
   }
 
   static void show(BuildContext context,
-      {void Function()? onYesPressed, void Function()? onNoPressed}) {
+      {void Function()? onYesPressed,
+      void Function()? onNoPressed,
+      String? textConfirmation}) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return ConfirmationDialog(
           onYesPressed: onYesPressed,
           onNoPressed: onNoPressed,
+          textConfirmation: textConfirmation,
         );
       },
     );

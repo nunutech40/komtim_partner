@@ -44,7 +44,7 @@ class ResponseParser {
     T Function(bool metaResponse) successHandler,
   ) async {
     final parsedJson = json.decode(response.body);
-    print('cek data parsed: $parsedJson');
+
     switch (response.statusCode) {
       case 200:
         var metaresponse = MetaResponse.fromJson(parsedJson['meta']);
@@ -59,7 +59,7 @@ class ResponseParser {
         throw UnauthorizedException(metaresponse.message ?? 'Not Found');
       case 401:
         var metaresponse = MetaResponse.fromJson(parsedJson['meta']);
-        print('cek message error ${metaresponse.message}');
+
         throw UnauthorizedException(metaresponse.message ?? 'Unauthorized');
       case 404:
         var metaresponse = MetaResponse.fromJson(parsedJson['meta']);

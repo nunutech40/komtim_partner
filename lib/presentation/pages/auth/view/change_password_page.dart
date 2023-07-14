@@ -6,6 +6,8 @@ import '../../../../common/enum_status.dart';
 import '../../../../common/styles.dart';
 import '../../../router/app_router.dart';
 import '../../../router/router_utils.dart';
+import '../../../widgets/confirmation_dialog.dart';
+import '../../../widgets/confirmation_dialog_oke.dart';
 import '../../../widgets/custom_button.dart';
 import '../../../widgets/custom_password_field.dart';
 
@@ -13,7 +15,7 @@ class ChangePasswordPage extends StatelessWidget {
   const ChangePasswordPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext contexthere) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Ubah Password'),
@@ -21,7 +23,7 @@ class ChangePasswordPage extends StatelessWidget {
       body: BlocListener<ChangePasswordBloc, ChangePasswordState>(
         listener: (context, state) {
           if (state.status == RequestStatus.success) {
-            AppRouter.router.go(PAGES.login.screenPath);
+            showConfirmation(contexthere, context.read<ChangePasswordBloc>());
           } else if (state.status == RequestStatus.failure) {
             if (state.newPassErrorMessage.isNotEmpty &&
                 !state.newPassErrorMessage
@@ -91,6 +93,36 @@ class ChangePasswordPage extends StatelessWidget {
       ),
     );
   }
+
+  static void showConfirmation(
+      BuildContext context, ChangePasswordBloc changePasswordBloc) {
+    ConfirmationDialogOke.show(
+      context,
+      onYesPressed: () {
+        Navigator.of(context).pop();
+        AppRouter.router.go(PAGES.login.screenPath);
+      },
+    );
+  }
+
+  static void showConfirmationChangePass(BuildContext context,
+      ChangePasswordBloc changePasswordBloc, String textConfir) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return ConfirmationDialog(
+          onYesPressed: () {
+            changePasswordBloc.add(const ChangePassButtonPressedEvent());
+            Navigator.of(context).pop();
+          },
+          onNoPressed: () {
+            Navigator.of(context).pop();
+          },
+          textConfirmation: textConfir,
+        );
+      },
+    );
+  }
 }
 
 class _NewPassword extends StatelessWidget {
@@ -105,7 +137,6 @@ class _NewPassword extends StatelessWidget {
               ? state.newPassErrorMessage
               : null,
           onChanged: (value) {
-            print('cek valueenya: $value');
             context
                 .read<ChangePasswordBloc>()
                 .add(ChangeNewPasswordChangedEvent(newPass: value));
@@ -168,9 +199,10 @@ class _SubmitButton extends StatelessWidget {
       child: CustomButton(
         text: 'Simpan',
         onPressed: () {
-          context
-              .read<ChangePasswordBloc>()
-              .add(const ChangePassButtonPressedEvent());
+          ChangePasswordPage.showConfirmationChangePass(
+              context,
+              context.read<ChangePasswordBloc>(),
+              'Apakah anda yakin untuk merubah password anda?');
         },
       ),
     );

@@ -20,34 +20,13 @@ class ChangePasswordBloc
     on<ChangeOldPasswordChangedEvent>(_handleOldPassChangeEvent);
     on<ChangeConfirmPasswordChangedEvent>(_handleConfirmPassChangeEvent);
   }
-  Future<void> _handleNewPassChangeEvent(
-    ChangeNewPasswordChangedEvent event,
-    Emitter<ChangePasswordState> emit,
-  ) async {
-    var newState = state.copyWith(newPassword: event.newPass);
-
-    if (event.newPass.length < 8) {
-      newState = newState.copyWith(
-        newPassErrorMessage: 'Password minimal 8 karakter',
-      );
-    } else if (event.newPass.contains(' ')) {
-      newState = newState.copyWith(
-        newPassErrorMessage: 'Password tidak dapat menggunakan spasi',
-      );
-    } else {
-      newState = newState.copyWith(
-        newPassErrorMessage: '',
-      );
-    }
-
-    emit(newState);
-  }
 
   Future<void> _handleOldPassChangeEvent(
     ChangeOldPasswordChangedEvent event,
     Emitter<ChangePasswordState> emit,
   ) async {
     var newState = state.copyWith(oldPassword: event.oldPass);
+    print('cek _handleOldPassChangeEvent $newState');
 
     if (event.oldPass.length < 8) {
       newState = newState.copyWith(
@@ -66,11 +45,36 @@ class ChangePasswordBloc
     emit(newState);
   }
 
+  Future<void> _handleNewPassChangeEvent(
+    ChangeNewPasswordChangedEvent event,
+    Emitter<ChangePasswordState> emit,
+  ) async {
+    var newState = state.copyWith(newPassword: event.newPass);
+    print('cek _handleNewPassChangeEvent $newState');
+
+    if (event.newPass.length < 8) {
+      newState = newState.copyWith(
+        newPassErrorMessage: 'Password minimal 8 karakter',
+      );
+    } else if (event.newPass.contains(' ')) {
+      newState = newState.copyWith(
+        newPassErrorMessage: 'Password tidak dapat menggunakan spasi',
+      );
+    } else {
+      newState = newState.copyWith(
+        newPassErrorMessage: '',
+      );
+    }
+
+    emit(newState);
+  }
+
   Future<void> _handleConfirmPassChangeEvent(
     ChangeConfirmPasswordChangedEvent event,
     Emitter<ChangePasswordState> emit,
   ) async {
     var newState = state.copyWith(confirmPassword: event.confirmPass);
+    print('cek _handleConfirmPassChangeEvent $newState');
 
     if (event.confirmPass.length < 8) {
       newState = newState.copyWith(
@@ -109,10 +113,6 @@ class ChangePasswordBloc
     final oldPass = state.oldPassword;
     final confirmPass = state.confirmPassword;
 
-    print('cek data oldpas: $oldPass');
-    print('cek data newpas: $newPass');
-    print('cek data confirmpas: $confirmPass');
-
     if (newPass.isEmpty || oldPass.isEmpty || confirmPass.isEmpty) {
       emit(state.copyWith(
         status: RequestStatus.failure,
@@ -129,7 +129,7 @@ class ChangePasswordBloc
     emit(state.copyWith(status: RequestStatus.loading));
 
     final result =
-        await changePasswordUseCase.execute(newPass, oldPass, confirmPass);
+        await changePasswordUseCase.execute(oldPass, newPass, confirmPass);
 
     result.fold(
       (failure) {
