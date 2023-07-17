@@ -20,7 +20,7 @@ class ChangePasswordPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Ubah Password'),
       ),
-      body: BlocListener<ChangePasswordBloc, ChangePasswordState>(
+      body: BlocConsumer<ChangePasswordBloc, ChangePasswordState>(
         listener: (context, state) {
           if (state.status == RequestStatus.success) {
             showConfirmation(contexthere, context.read<ChangePasswordBloc>());
@@ -65,31 +65,41 @@ class ChangePasswordPage extends StatelessWidget {
             }
           }
         },
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(32.0),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
-                    children: [
-                      _OldPassword(),
-                      const SizedBox(height: 24.0),
-                      _NewPassword(),
-                      const SizedBox(height: 24.0),
-                      _ConfirmPassword(),
-                      const SizedBox(height: 24.0),
-                    ],
+        builder: (context, state) {
+          return Stack(
+            children: [
+              SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.all(32.0),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Column(
+                          children: [
+                            _OldPassword(),
+                            const SizedBox(height: 24.0),
+                            _NewPassword(),
+                            const SizedBox(height: 24.0),
+                            _ConfirmPassword(),
+                            const SizedBox(height: 24.0),
+                          ],
+                        ),
+                        _SubmitButton(),
+                      ],
+                    ),
                   ),
-                  _SubmitButton(),
-                ],
+                ),
               ),
-            ),
-          ),
-        ),
+              if (state.status == RequestStatus.loading)
+                const Center(
+                  child: CircularProgressIndicator(),
+                ),
+            ],
+          );
+        },
       ),
     );
   }

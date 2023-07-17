@@ -14,12 +14,12 @@ class ForgotPasswordPage extends StatelessWidget {
   const ForgotPasswordPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext contexthere) {
+  Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocListener<ForgotPasswordBloc, ForgotPasswordState>(
+      body: BlocConsumer<ForgotPasswordBloc, ForgotPasswordState>(
         listener: (context, state) {
           if (state.status == RequestStatus.success) {
-            showConfirmation(contexthere, context.read<ForgotPasswordBloc>());
+            showConfirmation(context, context.read<ForgotPasswordBloc>());
           } else if (state.status == RequestStatus.failure) {
             if (!state.emailErrorMessage.contains('Email tidak ditemukan.')) {
               ScaffoldMessenger.of(context).showSnackBar(
@@ -31,7 +31,17 @@ class ForgotPasswordPage extends StatelessWidget {
             }
           }
         },
-        child: const _ForgotPasswordForm(),
+        builder: (context, state) {
+          return Stack(
+            children: [
+              const _ForgotPasswordForm(),
+              if (state.status == RequestStatus.loading)
+                const Center(
+                  child: CircularProgressIndicator(),
+                ),
+            ],
+          );
+        },
       ),
     );
   }

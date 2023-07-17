@@ -15,7 +15,7 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<LoginBloc, LoginState>(
+    return BlocConsumer<LoginBloc, LoginState>(
       listener: (context, state) {
         if (state.status == RequestStatus.success) {
           AppRouter.router.go(PAGES.main.screenPath);
@@ -31,7 +31,17 @@ class LoginPage extends StatelessWidget {
           }
         }
       },
-      child: const _LoginForm(),
+      builder: (context, state) {
+        return Stack(
+          children: [
+            const _LoginForm(),
+            if (state.status == RequestStatus.loading)
+              const Center(
+                child: CircularProgressIndicator(),
+              ),
+          ],
+        );
+      },
     );
   }
 }
