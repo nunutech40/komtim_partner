@@ -50,7 +50,6 @@ class ChangePasswordBloc
     Emitter<ChangePasswordState> emit,
   ) async {
     var newState = state.copyWith(newPassword: event.newPass);
-    print('cek _handleNewPassChangeEvent $newState');
 
     if (event.newPass.length < 8) {
       newState = newState.copyWith(
@@ -74,7 +73,6 @@ class ChangePasswordBloc
     Emitter<ChangePasswordState> emit,
   ) async {
     var newState = state.copyWith(confirmPassword: event.confirmPass);
-    print('cek _handleConfirmPassChangeEvent $newState');
 
     if (event.confirmPass.length < 8) {
       newState = newState.copyWith(
@@ -115,7 +113,7 @@ class ChangePasswordBloc
 
     if (newPass.isEmpty || oldPass.isEmpty || confirmPass.isEmpty) {
       emit(state.copyWith(
-        status: RequestStatus.failure,
+        status: RequestStatus.empty,
         newPassErrorMessage:
             newPass.isEmpty ? 'Password baru tidak boleh kosong' : '',
         oldPassErrorMessage:
@@ -135,13 +133,14 @@ class ChangePasswordBloc
       (failure) {
         String newMessageError = failure.message;
 
-        if (newMessageError == 'Invalid Old Password') {
+        if (newMessageError.contains('Invalid Old Password')) {
           newMessageError = 'Salah memasukan password lama kamu.';
           emit(state.copyWith(
             status: RequestStatus.empty,
             oldPassErrorMessage: newMessageError,
           ));
-        } else if (newMessageError == 'Confirmation Password did not match') {
+        } else if (newMessageError
+            .contains('Confirmation Password did not match')) {
           newMessageError = 'Konfirmasi password yang kamu masukan salah.';
           emit(state.copyWith(
             status: RequestStatus.empty,

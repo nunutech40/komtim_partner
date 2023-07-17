@@ -22,16 +22,16 @@ class ResponseParser {
         }
       case 204:
         var metaresponse = MetaResponse.fromJson(parsedJson['meta']);
-        throw UnauthorizedException(metaresponse.message ?? 'Not Found');
+        throw Exception('Request failed: ${metaresponse.message}');
       case 401:
         var metaresponse = MetaResponse.fromJson(parsedJson['meta']);
-        throw UnauthorizedException(metaresponse.message ?? 'Unauthorized');
+        throw Exception('Request failed: ${metaresponse.message}');
       case 404:
         var metaresponse = MetaResponse.fromJson(parsedJson['meta']);
-        throw UnauthorizedException(metaresponse.message ?? 'Unauthorized');
+        throw Exception('Request failed: ${metaresponse.message}');
       case 422:
         final messageError = parsedJson['data']['errors'][0].toString();
-        throw UnauthorizedException(messageError);
+        throw Exception('Request failed: $messageError');
       case 500:
         throw ServerException('Server Error');
       default:
@@ -55,18 +55,16 @@ class ResponseParser {
         }
       case 204:
         var metaresponse = MetaResponse.fromJson(parsedJson['meta']);
-
-        throw UnauthorizedException(metaresponse.message ?? 'Not Found');
+        throw Exception('Request failed: ${metaresponse.message}');
       case 401:
         var metaresponse = MetaResponse.fromJson(parsedJson['meta']);
-
-        throw UnauthorizedException(metaresponse.message ?? 'Unauthorized');
+        throw Exception(metaresponse.message);
       case 404:
         var metaresponse = MetaResponse.fromJson(parsedJson['meta']);
-        throw UnauthorizedException(metaresponse.message ?? 'Unauthorized');
+        throw Exception('Request failed: ${metaresponse.message}');
       case 422:
         final messageError = parsedJson['data']['errors'][0].toString();
-        throw UnauthorizedException(messageError);
+        throw Exception('Request failed: $messageError');
       case 500:
         throw ServerException('Server Error');
       default:
