@@ -41,10 +41,18 @@ class ProfilePage extends StatelessWidget {
                 }
               },
               builder: (context, state) {
-                return ProfileRow(
-                    imageUrlNetwork: state.profileData?.photoProfileUrl,
-                    name: state.profileData?.fullname ?? 'Nunu Nugraha',
-                    id: state.profileData?.id.toString() ?? '0');
+                return Stack(
+                  children: [
+                    ProfileRow(
+                        imageUrlNetwork: state.profileData?.photoProfileUrl,
+                        name: state.profileData?.fullname ?? 'Nunu Nugraha',
+                        id: state.profileData?.id.toString() ?? '0'),
+                    if (state.status == RequestStatus.loading)
+                      const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                  ],
+                );
               },
             ),
             const SizedBox(
