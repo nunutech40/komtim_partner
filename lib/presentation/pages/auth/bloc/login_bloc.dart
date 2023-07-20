@@ -82,13 +82,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     emit(state.copyWith(status: RequestStatus.loading));
 
     final result = await doLoginUseCase.execute(state.username, state.password);
-
     result.fold(
       (failure) {
         String newMessageError = failure.message;
 
         if (newMessageError == 'Invalid username or password' ||
-            newMessageError.contains('Resource Not Found')) {
+            newMessageError.contains('Resource Not Found') ||
+            newMessageError.contains('Invalid username or password')) {
           newMessageError = 'Username atau password salah';
         } else {
           newMessageError =

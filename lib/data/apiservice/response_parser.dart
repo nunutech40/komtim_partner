@@ -12,13 +12,14 @@ class ResponseParser {
     T Function(Map<String, dynamic> json) successHandler,
   ) async {
     final parsedJson = json.decode(response.body);
+    print('cek parsedjson: $parsedJson');
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
       var metaresponse = MetaResponse.fromJson(parsedJson['meta']);
       if (metaresponse.status == "success") {
         return successHandler(parsedJson['data']);
       } else {
-        throw Exception('Request failed: ${metaresponse.message}');
+        throw Exception(metaresponse.message);
       }
     } else {
       handleErrorResponse(response.statusCode, parsedJson, false);
@@ -32,13 +33,13 @@ class ResponseParser {
     T Function(bool metaResponse) successHandler,
   ) async {
     final parsedJson = json.decode(response.body);
-
+    print('cek parsedjsonMeta: $parsedJson');
     if (response.statusCode >= 200 && response.statusCode < 300) {
       var metaresponse = MetaResponse.fromJson(parsedJson['meta']);
       if (metaresponse.status == "success") {
         return successHandler(true);
       } else {
-        throw Exception('Request failed: ${metaresponse.message}');
+        throw Exception(metaresponse.message);
       }
     } else {
       handleErrorResponse(response.statusCode, parsedJson, true);
@@ -56,7 +57,7 @@ class ResponseParser {
       throw Exception('Request failed: $messageError');
     } else if (statusCode >= 400 && statusCode < 500) {
       var metaresponse = MetaResponse.fromJson(parsedJson['meta']);
-      throw Exception('Request failed: ${metaresponse.message}');
+      throw Exception(metaresponse.message);
     } else if (statusCode >= 500) {
       throw ServerException('Server Error');
     } else {
