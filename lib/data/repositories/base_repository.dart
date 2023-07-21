@@ -5,8 +5,10 @@ import 'package:dartz/dartz.dart';
 import 'package:komtim_partner/common/failure.dart';
 
 import '../../common/exception.dart';
+import '../datasources/preferences/shared_pref.dart';
 
 abstract class BaseRepository {
+  
   Future<Either<Failure, T>> executeEither<T>(Future<T> Function() f) async {
     try {
       final result = await f();

@@ -59,20 +59,23 @@ class _LoginForm extends StatelessWidget {
           padding: const EdgeInsets.all(32.0),
           child: Align(
             alignment: Alignment.centerLeft,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const _LoginHeader(),
-                const SizedBox(height: 32.0),
-                _LoginUsername(),
-                const SizedBox(height: 24.0),
-                _LoginPassword(),
-                const SizedBox(height: 24.0),
-                const _ForgotPasswordText(),
-                const SizedBox(height: 32.0),
-                _SubmitButton(),
-              ],
+            child: SingleChildScrollView(
+              // Wrap with SingleChildScrollView
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const _LoginHeader(),
+                  const SizedBox(height: 32.0),
+                  _LoginUsername(),
+                  const SizedBox(height: 24.0),
+                  _LoginPassword(),
+                  const SizedBox(height: 24.0),
+                  const _ForgotPasswordText(),
+                  const SizedBox(height: 32.0),
+                  _SubmitButton(),
+                ],
+              ),
             ),
           ),
         ),

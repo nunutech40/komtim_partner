@@ -71,7 +71,7 @@ Future<void> initDependencies() async {
   // http service
   locator.registerLazySingleton(
       () => HttpService(client: locator(), sharedPref: locator()));
-  locator.registerLazySingleton(() => ResponseParser());
+  locator.registerLazySingleton(() => ResponseParser(sharedPref: locator()));
 
   // Ensure SharedPreferences is ready
   await locator.allReady();

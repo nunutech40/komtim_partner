@@ -4,9 +4,14 @@ import 'package:http/http.dart' show Response;
 import 'package:http/http.dart' as http;
 
 import '../../../common/exception.dart';
+import '../datasources/preferences/shared_pref.dart';
 import '../models/meta_response.dart';
 
 class ResponseParser {
+  final SharedPref sharedPref;
+
+  ResponseParser({required this.sharedPref});
+
   Future<T> parseResponse<T>(
     http.Response response,
     T Function(Map<String, dynamic> json) successHandler,
@@ -57,6 +62,9 @@ class ResponseParser {
       throw Exception('Request failed: $messageError');
     } else if (statusCode >= 400 && statusCode < 500) {
       var metaresponse = MetaResponse.fromJson(parsedJson['meta']);
+      if (metaresponse.message!.contains('token is expired')) {
+        sharedPref.removeDataPref();
+      }
       throw Exception(metaresponse.message);
     } else if (statusCode >= 500) {
       throw ServerException('Server Error');
